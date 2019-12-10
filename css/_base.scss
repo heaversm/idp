@@ -1,0 +1,52 @@
+@font-face {
+  font-family: "Euclid";
+  src: url("../fonts/EuclidFlex-Regular-WebS.woff2") format("woff2"),
+    url("../fonts/EuclidFlex-Regular-WebS.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Euclid";
+  src: url("../fonts/EuclidFlex-Medium-WebS.woff2") format("woff2"),
+    url("../fonts/EuclidFlex-Medium-WebS.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-weight: normal;
+  margin: 0;
+}
+
+body {
+  background-color: black;
+  color: white;
+  margin: 0;
+  font-family: "Euclid",sans-serif;
+  margin: 0;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+button {
+    border: none;
+    text-decoration: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+a.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
