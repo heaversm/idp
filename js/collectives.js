@@ -104,12 +104,14 @@
       //$(button).removeClass('active');
       $arrow.removeClass('active');
       setTimeout(()=>{
-          window.location = 'register.html'
-      })
+          //window.location = 'register.html'
+      },1500); //MH - how much time?
   }
 
   function displayContent(){
       var $curPetal = $('.petal').eq(curIndex);
+      $('.petal').removeClass('active');
+      $curPetal.addClass('active');
       var $curSpan = $curPetal.find('span');
       var curText = $curSpan.text();
       $contentWrapper.find('.title').text(curText);
