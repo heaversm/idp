@@ -40,14 +40,14 @@
           } else {
               curIndex = totalIndex;
           }
-          rotateAmt -= 40;
+          rotateAmt += 40;
       } else {
           if (curIndex < totalIndex){
               curIndex++;
           } else {
               curIndex = 0;
           }
-          rotateAmt+=40;
+          rotateAmt-=40;
       }
 
       $wrapper.css({'transform': 'translate(-50%,-50%) rotate(' + rotateAmt + 'deg'});
@@ -57,7 +57,7 @@
   function onPetalClick(){
       var $thisPetal = $(this);
       curIndex = $thisPetal.index();
-      var rotateIndex = curIndex-2; //MH - 0 index is at the left position , so two turns will get it to the top, thus the -2
+      var rotateIndex = curIndex; //MH - 0 index is at the left position , so two turns will get it to the top, thus the -2
 
       rotateAmt = -rotateIndex*40;
       console.log(curIndex,rotateAmt);
@@ -98,11 +98,14 @@
   }
   function closeNav(){
       open = false;
-
+      
       classie.remove(overlay, 'on-overlay');
       classie.remove(wrapper, 'opened-nav');
-      $(button).removeClass('active');
+      //$(button).removeClass('active');
       $arrow.removeClass('active');
+      setTimeout(()=>{
+          window.location = 'register.html'
+      })
   }
 
   function displayContent(){

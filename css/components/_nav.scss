@@ -1,0 +1,28 @@
+.bc {
+  &__container {
+    display: flex;
+    position: absolute;
+    top: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+    z-index: 10;
+  }
+  &__steps_container {
+    display: flex;
+    border: 1px solid white;
+    height: 50px;
+    border-radius: 25px;
+    align-items: center;
+    padding: 10px 20px;
+  }
+  &__item {
+    margin-left: 10px;
+    &:first-child {
+      margin-left: 0;
+    }
+    &.active {
+      color: $c__primary;
+    }
+  }
+  
+}
