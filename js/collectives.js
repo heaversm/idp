@@ -1,8 +1,9 @@
-(function(){
+window.onload = function(){
 
   var button = document.getElementById('cn-button'),
   wrapper = document.getElementById('cn-wrapper'),
   overlay = document.getElementById('cn-overlay');
+  $selectButton = document.querySelector('.select-instance');
 
   $wrapper = $('.cn-wrapper');
   $contentWrapper = $('.content-wrapper');
@@ -20,6 +21,7 @@
   $arrow.on('click',onArrowClick);
   $petals.on('click',onPetalClick);
   $('.select-instance').on('click',onInstanceClick);
+  
 
   initializeFirstItem();
 
@@ -85,9 +87,6 @@
       if(!open){
           openNav();
       }
-      else{
-          closeNav();
-      }
   }
   function openNav(){
       open = true;
@@ -104,7 +103,7 @@
       //$(button).removeClass('active');
       $arrow.removeClass('active');
       setTimeout(()=>{
-          //window.location = 'register.html'
+          window.location = 'register.html'
       },1500); //MH - how much time?
   }
 
@@ -120,5 +119,5 @@
   }
   //document.addEventListener('click', closeNav);
 
-})();
+}
 

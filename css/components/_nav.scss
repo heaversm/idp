@@ -17,12 +17,21 @@
   }
   &__item {
     margin-left: 10px;
+    color: white;
+    transition: color 250ms linear;
     &:first-child {
       margin-left: 0;
     }
     &.active {
       color: $c__primary;
     }
+    &.inactive {
+      color: $c__inactive;
+    }
+    &[href]:hover {
+      color: lighten($c__primary,30%);
+    }
+    
   }
   
 }

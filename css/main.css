@@ -88,12 +88,14 @@ a.button {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 100%;
+  padding: 20px;
 }
 
 .title {
-  line-height: 20px;
-  font-size: 20px;
-  margin-bottom: 1em;
+  font-size: 50px;
+  margin-bottom: 40px;
+  margin-top: 20px;
 }
 
 .select-instance {
@@ -102,6 +104,21 @@ a.button {
   border-radius: 8px;
   border: 0;
   padding: 10px 20px;
+  transition: all 250ms linear;
+  min-width: 150px;
+  font-size: 18px;
+  cursor: pointer;
+}
+.select-instance:hover, .select-instance:active, .select-instance:focus {
+  color: #0a7058;
+  background-color: #16dcab;
+}
+
+.prompt {
+  font-size: 14px;
+  font-style: italic;
+  white-space: nowrap;
+  color: #b3b3b3;
 }
 
 .content-wrapper.active {
@@ -120,6 +137,18 @@ a.button {
   z-index: 20;
   cursor: pointer;
   color: white;
+}
+.arrow svg {
+  transition: transform 500ms ease-out;
+}
+.arrow line {
+  transition: stroke 250ms linear;
+}
+.arrow:hover svg {
+  transform: scale(1.1);
+}
+.arrow:hover line {
+  stroke: #16dcab;
 }
 
 .arrow.active {
@@ -146,7 +175,7 @@ a.button {
   transform: translate(-50%, -50%);
   /*  transform: scale(0.1) translate(-50%,-50%);*/
   pointer-events: none;
-  transition: transform 0.3s ease;
+  transition: transform 1000ms cubic-bezier(0.77, 0, 0.175, 1);
   transform-origin: center;
 }
 
@@ -180,10 +209,7 @@ a.button {
   outline: none;
   border: none;
   background: none;
-  color: #2b936b;
   text-align: center;
-  /*font-size: 1.8em;
-  padding-bottom: 1em;*/
   height: 3.5em;
   width: 3.5em;
   background-color: black;
@@ -191,9 +217,7 @@ a.button {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  line-height: 3.5em;
   border-radius: 50%;
-  cursor: pointer;
   z-index: 11;
   transition: 0.3s width, 0.3s height;
   transition-delay: 0.2s;
@@ -211,12 +235,6 @@ a.button {
 
 .cn-button.active span {
   opacity: 0;
-}
-
-.cn-button:hover,
-.cn-button:active,
-.cn-button:focus {
-  color: #52be7f;
 }
 
 .flower {
@@ -264,6 +282,7 @@ a.button {
 
 .opened-nav li a {
   transform: skew(-50deg) rotate(-70deg) scale(1) translate(0%);
+  transition: all 250ms linear;
 }
 
 .cn-wrapper li a span {
@@ -335,8 +354,8 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 .cn-wrapper li:not(.active) a:hover,
 .cn-wrapper li:not(.active) a:active,
 .cn-wrapper li:not(.active) a:focus {
-  background-color: #d5ece3;
-  color: #2b936b;
+  background-color: #0a7058;
+  color: #16dcab;
 }
 
 .arrows__container {
@@ -359,6 +378,225 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   stroke-width: 50px;
 }
 
+.register__body_container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+.register__status_text_container {
+  text-align: center;
+  padding-top: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+.register__status_text {
+  color: #16dcab;
+  font-size: 24px;
+}
+.register__status {
+  color: white;
+}
+.register__loader_container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.register__webcam_icon {
+  width: 100px;
+}
+.register__webcam_icon path {
+  fill: white;
+}
+.register__webcam_link {
+  background-color: transparent;
+}
+.register__input_container {
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.register__styles_outer {
+  position: absolute;
+  top: 200px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  display: none;
+}
+.register__styles_container {
+  width: 640px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.register__style_container {
+  position: relative;
+  margin-top: 5px;
+}
+.register__style_image {
+  width: 200px;
+  height: 200px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+.spinner__container {
+  width: 80px;
+  height: 80px;
+  background-color: #16dcab;
+  border-radius: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.double-bounce1,
+.double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.6);
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-animation: sk-bounce 2s infinite ease-in-out;
+  animation: sk-bounce 2s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  -webkit-animation-delay: -1s;
+  animation-delay: -1s;
+}
+
+@-webkit-keyframes sk-bounce {
+  0%, 100% {
+    -webkit-transform: scale(0);
+  }
+  50% {
+    -webkit-transform: scale(1);
+  }
+}
+@keyframes sk-bounce {
+  0%, 100% {
+    transform: scale(0);
+    -webkit-transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
+}
+.output-container {
+  min-width: 330px;
+  padding-bottom: 35px;
+}
+
+#input-img {
+  width: 250;
+  height: 250;
+}
+
+.center-container {
+  /*display: flex;*/
+  display: none;
+  justify-content: center;
+}
+
+.body-container.camera .center-container {
+  display: flex;
+}
+
+.body-container.stylized #output-img-container {
+  display: flex;
+}
+
+.body-container.loaded .loader-container {
+  display: none;
+}
+
+.body-container.camera #output-img-container {
+  display: none;
+}
+
+.link {
+  display: none;
+}
+
+.body-container.loaded.camera .link {
+  display: none;
+}
+
+.body-container.camera .start-btn {
+  display: flex;
+}
+
+.body-container.loaded .link {
+  display: block;
+}
+
+.style-container {
+  display: flex;
+  justify-content: space-around;
+  min-width: 250px;
+  margin-top: 20px;
+}
+
+.imageAnchor {
+  display: block;
+  border: 5px solid transparent;
+  display: flex;
+  transition: border-color 250ms ease-out;
+}
+
+.imageAnchor.active {
+  border-color: #16dcab;
+}
+
+.start-btn {
+  color: #2b90e2;
+  border: solid 2px #2b90e2;
+  width: 88%;
+  font-size: 18px;
+  padding: 9px 0;
+  cursor: pointer;
+  background: white;
+  display: none;
+}
+
+.start-btn:hover {
+  background: #2b90e2;
+  color: white;
+}
+
+#output-img-container {
+  display: none;
+  justify-content: center;
+}
+
+.reverse-img {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
 .bc__container {
   display: flex;
   position: absolute;
@@ -377,12 +615,20 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 }
 .bc__item {
   margin-left: 10px;
+  color: white;
+  transition: color 250ms linear;
 }
 .bc__item:first-child {
   margin-left: 0;
 }
 .bc__item.active {
   color: #16dcab;
+}
+.bc__item.inactive {
+  color: #9999;
+}
+.bc__item[href]:hover {
+  color: #96f5dd;
 }
 
 /*# sourceMappingURL=main.css.map */

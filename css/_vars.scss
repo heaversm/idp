@@ -1,3 +1,8 @@
 //colors
 $c__primary: rgb(22,220,171);
 $c__primary--dark: rgb(10,112,88);
+$c__inactive: #9999;
+
+$t__in_out_back: cubic-bezier(0.680, -0.550, 0.265, 1.550);
+$t__in_out_expo: cubic-bezier(1.000, 0.000, 0.000, 1.000);
+$t__in_out_quart: cubic-bezier(0.770, 0.000, 0.175, 1.000);
