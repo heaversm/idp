@@ -6,6 +6,20 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    &.stylized {
+      .register__input_container {
+        display: none;
+      }
+      .register__styles_outer {
+        display: flex;
+      }
+      .register__reverse_image {
+        transform: translateY(-75px) scale(0.75);
+      }
+      .register__print_button {
+        display: flex;
+      }
+    }
   }
   &__status_text_container {
     text-align: center;
@@ -41,7 +55,7 @@
   &__webcam_link {
     background-color: transparent;
   }
-  &__input_container {
+  &__input_container, &__output_container {
     position: absolute;
     z-index: 10;
     width: 100%;
@@ -53,7 +67,7 @@
   }
   &__styles_outer {
     position: absolute;
-    top: 200px;
+    top: 700px;
     left: 0;
     width: 100%;
     display: flex;
@@ -61,19 +75,29 @@
     display: none;
   }
   &__styles_container {
-    width: 640px;
+    width: 1000px;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-
   }
   &__style_container {
     position: relative;
     margin-top: 5px;
   }
   &__style_image {
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
+  }
+  &__reverse_image {
+    transition: transform 500ms $t__in_out_quart;
+  }
+  &__print_container {
+    position: absolute;
+    left: 0;
+    top: 600px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 }
 
@@ -198,19 +222,21 @@
   border-color: $c__primary;
 }
 
-.start-btn {
-  color: rgb(43, 144, 226);
-  border: solid 2px rgb(43, 144, 226);
-  width: 88%;
-  font-size: 18px;
-  padding: 9px 0;
-  cursor: pointer;
-  background: white;
+.start-btn, .register__print_button {
+  height: 50px;
+  width: 200px;
+  border-radius: 25px;
+  font-size: 24px;
+  background: $c__primary--dark;
+  color: #ffffff;
+  padding: 5px 15px;
+  transition: all ease-in-out 0.5s;
+  justify-content: center;
   display: none;
-}
-.start-btn:hover {
-  background: rgb(43, 144, 226);
-  color: white;
+  &:hover {
+    background-color: $c__primary;
+    color: $c__primary--dark;
+  }
 }
 #output-img-container {
   display: none;

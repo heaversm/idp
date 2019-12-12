@@ -37,7 +37,7 @@
     <div class="input-container register__input_container">
       <div class="center-container">
         <img id="input-img" src='images/girlwithpearl.jpg' />
-        <div id="input-source" class="reverse-img"></div>
+        <div id="input-source" class="reverse-img register__reverse_image"></div>
       </div>
       <button class="register__webcam_link link" onclick="useWebcam()">
         <svg class="register__webcam_icon" x="0px" y="0px" viewBox="0 0 408 511.4" xml:space="preserve">
@@ -65,66 +65,71 @@
         </svg>
 
       </button>
-      <button class="start-btn" onclick="onPredictClick()">Stylize</button>
+      <button class="start-btn register__photo_button" onclick="onPredictClick()">Take photo</button>
     </div>
 
-    <div id="output-img-container"></div>
+    <div id="output-img-container" class="register__output_container">
+      <div class="register__print_container">
+        <button class="register__print_button" onclick="onPrintClick()">Print Badge</button>
+      </div>
+      <div class="register__styles_outer">
+        <div class="register__styles_container">
 
-    <div class="register__styles_outer">
-      <div class="register__styles_container">
-
-        <div class="register__style_container">
-          <a class="imageAnchor active" href="#" autofocus onclick="updateStyleImg(this)">
-            <img class="register__style_image image" id="wave" src='images/wave.jpg' />
-          </a>
-        </div>
-        <div class="register__style_container">
-          <a class="imageAnchor" href="#" onclick="updateStyleImg(this)">
-            <img class="register__style_image image" id="la_muse" src='images/la_muse.jpg' />
-          </a>
-        </div>
-        <div class="register__style_container">
-          <a class="imageAnchor" href="#" onclick="updateStyleImg(this)">
-            <img class="register__style_image image" id="rain_princess" src='images/rain_princess.jpg' />
-          </a>
-        </div>
-
-
-        <div class="register__style_container">
-          <a class="imageAnchor" href="#" onclick="updateStyleImg(this)">
-            <img class="register__style_image image" id="udnie" src='images/udnie.jpg' />
-          </a>
-        </div>
-        <div class="register__style_container">
-          <a class="imageAnchor" href="#" onclick="updateStyleImg(this)">
-            <img class="register__style_image image" id="wreck" src='images/wreck.jpg' />
-          </a>
-        </div>
-        <div class="register__style_container">
-          <a class="imageAnchor" href="#" onclick="updateStyleImg(this)">
-            <img class="register__style_image image" id="scream" src='images/scream.jpg' />
-          </a>
-        </div>
+          <div class="register__style_container">
+            <a class="imageAnchor active" href="#" autofocus onclick="updateStyleImg(this)">
+              <img class="register__style_image image" id="wave" src='images/wave.jpg' />
+            </a>
+          </div>
+          <div class="register__style_container">
+            <a class="imageAnchor" href="#" onclick="updateStyleImg(this)">
+              <img class="register__style_image image" id="la_muse" src='images/la_muse.jpg' />
+            </a>
+          </div>
+          <div class="register__style_container">
+            <a class="imageAnchor" href="#" onclick="updateStyleImg(this)">
+              <img class="register__style_image image" id="rain_princess" src='images/rain_princess.jpg' />
+            </a>
+          </div>
 
 
-        <div class="register__style_container">
-          <a class="imageAnchor" href="#" onclick="updateStyleImg(this)">
-            <img class="register__style_image image" id="fuchun" src='images/fuchun.jpg' />
-          </a>
-        </div>
-        <div class="register__style_container">
-          <a class="imageAnchor" href="#" onclick="updateStyleImg(this)">
-            <img class="register__style_image image" id="zhangdaqian" src='images/zhangdaqian.jpg' />
-          </a>
-        </div>
-        <div class="register__style_container">
-          <a class="imageAnchor" href="#" onclick="updateStyleImg(this)">
-            <img class="register__style_image image" id="mathura" src='images/mathura.jpg' />
-          </a>
-        </div>
+          <div class="register__style_container">
+            <a class="imageAnchor" href="#" onclick="updateStyleImg(this)">
+              <img class="register__style_image image" id="udnie" src='images/udnie.jpg' />
+            </a>
+          </div>
+          <div class="register__style_container">
+            <a class="imageAnchor" href="#" onclick="updateStyleImg(this)">
+              <img class="register__style_image image" id="wreck" src='images/wreck.jpg' />
+            </a>
+          </div>
+          <div class="register__style_container">
+            <a class="imageAnchor" href="#" onclick="updateStyleImg(this)">
+              <img class="register__style_image image" id="scream" src='images/scream.jpg' />
+            </a>
+          </div>
 
+
+          <div class="register__style_container">
+            <a class="imageAnchor" href="#" onclick="updateStyleImg(this)">
+              <img class="register__style_image image" id="fuchun" src='images/fuchun.jpg' />
+            </a>
+          </div>
+          <div class="register__style_container">
+            <a class="imageAnchor" href="#" onclick="updateStyleImg(this)">
+              <img class="register__style_image image" id="zhangdaqian" src='images/zhangdaqian.jpg' />
+            </a>
+          </div>
+          <div class="register__style_container">
+            <a class="imageAnchor" href="#" onclick="updateStyleImg(this)">
+              <img class="register__style_image image" id="mathura" src='images/mathura.jpg' />
+            </a>
+          </div>
+
+        </div>
       </div>
     </div>
+
+
   </div>
 
 

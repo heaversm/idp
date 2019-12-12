@@ -72,6 +72,7 @@ function predictVideo(modelName) {
   isLoading = false;
   document.querySelector('.body-container').classList.remove('camera');
   document.querySelector('.body-container').classList.add('stylized');
+  $('.register__status').text('Choose a style for your image. Then press print');
 }
 
 function predictImg(modelName) {
@@ -136,7 +137,7 @@ function useWebcam() {
   }
   webcam = true;
   select('#input-img').hide();
-  outputImgContainer.addClass('reverse-img');
+  outputImgContainer.addClass('reverse-img register__reverse_image');
   //onPredictClick();
   const isStylized = document.querySelector('.body-container').classList.contains('stylized');
   if (isStylized){
@@ -176,6 +177,10 @@ function isSafari() {
       return true;
     }
   }
+}
+
+function onPrintClick(){
+  window.location = "engage.html"
 }
 
 /**
