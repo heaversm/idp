@@ -72,6 +72,7 @@ function predictVideo(modelName) {
   isLoading = false;
   document.querySelector('.body-container').classList.remove('camera');
   document.querySelector('.body-container').classList.add('stylized');
+  $('.register__body_container').removeClass('processing');
   $('.register__status').text('Choose a style for your image. Then press print');
 }
 
@@ -100,6 +101,8 @@ function draw() {
 
 function updateStyleImg(eleLink) {
   let ele = eleLink.querySelector('.image');
+  $('.register__print_button').attr('disabled','disabled');
+  $('.register__body_container').addClass('processing');
   document.querySelectorAll('.imageAnchor').forEach((styleLink,i)=>{
     if (styleLink.classList.contains('active')){
       styleLink.classList.remove('active');
@@ -120,8 +123,10 @@ function updateStyleImg(eleLink) {
       isLoading = false;
       //isDrawn = false;
       $('.register__status').text('Choose a style for your image. Then press print');
+      $('.register__body_container').removeClass('processing');
+      $('.register__print_button').removeAttr('disabled');
     }
-  },510)
+  },510);
 
 }
 
@@ -170,11 +175,12 @@ function onPredictClick() {
 
   if (webcam){
     $('.register__status').text('Hold still! This could take a minute');
-    $('.register__photo_button').text('Processing');
+    //$('.register__photo_button').text('');
+    $('.register__body_container').addClass('processing');
     video.pause();
     setTimeout(()=>{ //timeout necessaru tp prevent processing from blocking 
       predictVideo(currentModel);
-    },100);
+    },1000);
     
   } else {
     console.log('no webcam found');
@@ -198,7 +204,10 @@ function isSafari() {
 }
 
 function onPrintClick(){
-  window.location = "engage.html"
+  $('.register__body_container').addClass('outro');
+  setTimeout(()=>{
+    window.location = "engage.html"
+  },1000);
 }
 
 /**

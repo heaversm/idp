@@ -19,6 +19,9 @@
       .register__print_button {
         display: flex;
       }
+      .register__loader_container {
+        display: none;
+      }
     }
     &.loaded.camera {
       .register__spinner_cam_base {
@@ -32,6 +35,26 @@
         display: flex;
       }
     }
+    &.outro {
+      .register__output_container {
+        opacity: 0;
+      }
+      .register__loader_container {
+        display: none;
+      }
+      .register__status_text_container {
+        opacity: 0;
+      }
+    }
+    &.processing {
+      .process__button {
+        width: 50px;
+        animation: anim__process 2s infinite $t__in_out_back;
+        span {
+          display: none;
+        }
+      }
+    }
   }
   &__status_text_container {
     text-align: center;
@@ -40,6 +63,7 @@
     left: 0;
     top: 0;
     width: 100%;
+    transition: opacity 1000ms linear;
   }
   &__status_text {
     color: $c__primary;
@@ -77,6 +101,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    transition: opacity 1000ms linear;
   }
   &__styles_outer {
     position: absolute;
@@ -277,6 +302,16 @@
   }
 }
 
+@keyframes anim__process {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.5);
+  }
+}
+
 @keyframes anim__loader--cam1 {
   50% {
     background-color: black;
@@ -301,15 +336,15 @@
   }
 
   60% {
-    transform: scale(0.5) translate(0, 15px);
+    transform: scale(0.5) translate(15px, 2px);
   }
 
   70% {
-    transform: scale(0.5) translate(0, -15px);
+    transform: scale(0.5) translate(15px, 0px);
   }
 
   85% {
-    transform: scale(0.5) translate(0, -15px);
+    transform: scale(0.5) translate(-15px, 1px);
   }
 
   90% {

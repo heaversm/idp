@@ -39,6 +39,7 @@ button {
   text-decoration: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+  outline: none;
 }
 
 a.button {
@@ -398,6 +399,9 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 .register__body_container.stylized .register__print_button {
   display: flex;
 }
+.register__body_container.stylized .register__loader_container {
+  display: none;
+}
 .register__body_container.loaded.camera .register__spinner_cam_base {
   opacity: 0;
 }
@@ -407,6 +411,22 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 .register__body_container.loaded.camera .register__input_container {
   display: flex;
 }
+.register__body_container.outro .register__output_container {
+  opacity: 0;
+}
+.register__body_container.outro .register__loader_container {
+  display: none;
+}
+.register__body_container.outro .register__status_text_container {
+  opacity: 0;
+}
+.register__body_container.processing .process__button {
+  width: 50px;
+  animation: anim__process 2s infinite cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.register__body_container.processing .process__button span {
+  display: none;
+}
 .register__status_text_container {
   text-align: center;
   padding-top: 100px;
@@ -414,6 +434,7 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   left: 0;
   top: 0;
   width: 100%;
+  transition: opacity 1000ms linear;
 }
 .register__status_text {
   color: #16dcab;
@@ -450,6 +471,7 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  transition: opacity 1000ms linear;
 }
 .register__styles_outer {
   position: absolute;
@@ -648,6 +670,14 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
     -webkit-transform: scale(1);
   }
 }
+@keyframes anim__process {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.5);
+  }
+}
 @keyframes anim__loader--cam1 {
   50% {
     background-color: black;
@@ -668,13 +698,13 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
     transform: scale(0.5) translate(0, 15px);
   }
   60% {
-    transform: scale(0.5) translate(0, 15px);
+    transform: scale(0.5) translate(15px, 2px);
   }
   70% {
-    transform: scale(0.5) translate(0, -15px);
+    transform: scale(0.5) translate(15px, 0px);
   }
   85% {
-    transform: scale(0.5) translate(0, -15px);
+    transform: scale(0.5) translate(-15px, 1px);
   }
   90% {
     transform: scale(0.5) translate(0, 0);
