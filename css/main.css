@@ -387,6 +387,27 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   height: 100vh;
   overflow: hidden;
 }
+.register__body_container.loaded .register__spinner_dot--1 {
+  animation: anim__loader--cam1 2s forwards;
+}
+.register__body_container.loaded .register__spinner_dot--2 {
+  animation: anim__loader--cam2 2s forwards;
+}
+.register__body_container.loaded .register__spinner_cam_base {
+  opacity: 1;
+}
+.register__body_container.camera .register__input_inner {
+  display: flex;
+}
+.register__body_container.camera .register__output_container {
+  display: none;
+}
+.register__body_container.camera .register__photo_button {
+  display: flex;
+}
+.register__body_container.stylized .register__output_container {
+  display: flex;
+}
 .register__body_container.stylized .register__input_container {
   display: none;
 }
@@ -524,13 +545,12 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 .register__spinner_cam_base path {
   fill: #16dcab;
 }
-
-.spinner {
+.register__spinner {
   width: 40px;
   height: 40px;
   position: relative;
 }
-.spinner__container {
+.register__spinner_container {
   width: 80px;
   height: 80px;
   background-color: #16dcab;
@@ -542,9 +562,7 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   transition: transform 750ms cubic-bezier(0.77, 0, 0.175, 1);
   transition-delay: 250ms;
 }
-
-.double-bounce1,
-.double-bounce2 {
+.register__spinner_dot {
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -552,87 +570,25 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   position: absolute;
   top: 0;
   left: 0;
-  animation: sk-bounce 2s infinite ease-in-out;
+  animation: anim__bounce 2s infinite ease-in-out;
 }
-
-.double-bounce2 {
+.register__spinner_dot--2 {
   animation-delay: -1s;
 }
-
-.output-container {
-  min-width: 330px;
-  padding-bottom: 35px;
-}
-
-#input-img {
-  width: 250;
-  height: 250;
-}
-
-.center-container {
-  /*display: flex;*/
+.register__input_inner {
   display: none;
   justify-content: center;
 }
-
-.body-container.camera .center-container {
-  display: flex;
-}
-
-.body-container.stylized #output-img-container {
-  display: flex;
-}
-
-.body-container.loaded .double-bounce1 {
-  animation: anim__loader--cam1 2s forwards;
-}
-.body-container.loaded .double-bounce2 {
-  animation: anim__loader--cam2 2s forwards;
-}
-.body-container.loaded .register__spinner_cam_base {
-  opacity: 1;
-}
-
-.body-container.camera #output-img-container {
-  display: none;
-}
-
-.link {
-  display: none;
-}
-
-.body-container.loaded.camera .link {
-  display: none;
-}
-
-.body-container.camera .start-btn {
-  display: flex;
-}
-
-.body-container.loaded .link {
-  display: block;
-}
-
-.style-container {
-  display: flex;
-  justify-content: space-around;
-  min-width: 250px;
-  margin-top: 20px;
-}
-
-.imageAnchor {
+.register__image_anchor {
   display: block;
   border: 5px solid transparent;
   display: flex;
   transition: border-color 250ms ease-out;
 }
-
-.imageAnchor.active {
+.register__image_anchor.active {
   border-color: #16dcab;
 }
-
-.start-btn,
-.register__print_button {
+.register__photo_button, .register__print_button {
   height: 50px;
   width: 200px;
   border-radius: 25px;
@@ -644,23 +600,19 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   justify-content: center;
   display: none;
 }
-.start-btn:hover,
-.register__print_button:hover {
+.register__photo_button:hover, .register__print_button:hover {
   background-color: #16dcab;
   color: #0a7058;
 }
-
-#output-img-container {
+.register__output_container {
   display: none;
   justify-content: center;
 }
-
-.reverse-img {
-  -webkit-transform: scaleX(-1);
+.register__reverse_image {
   transform: scaleX(-1);
 }
 
-@keyframes sk-bounce {
+@keyframes anim__bounce {
   0%, 100% {
     transform: scale(0);
     -webkit-transform: scale(0);

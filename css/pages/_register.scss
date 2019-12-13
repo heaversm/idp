@@ -6,7 +6,32 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    &.loaded {
+      .register__spinner_dot--1 {
+        animation: anim__loader--cam1 2s forwards;
+      }
+      .register__spinner_dot--2 {
+        animation: anim__loader--cam2 2s forwards;
+      }
+      .register__spinner_cam_base {
+        opacity: 1;
+      }
+    }
+    &.camera {
+      .register__input_inner {
+        display: flex;
+      }
+      .register__output_container {
+        display: none;
+      }
+      .register__photo_button {
+        display: flex;
+      }
+    }
     &.stylized {
+      .register__output_container {
+        display: flex;
+      }
       .register__input_container {
         display: none;
       }
@@ -25,7 +50,7 @@
     }
     &.loaded.camera {
       .register__spinner_cam_base {
-          opacity: 0;
+        opacity: 0;
       }
       .register__spinner_container {
         transform: scale(0);
@@ -154,14 +179,12 @@
       fill: $c__primary;
     }
   }
-}
-
-.spinner {
-  width: 40px;
-  height: 40px;
-  position: relative;
-
-  &__container {
+  &__spinner {
+    width: 40px;
+    height: 40px;
+    position: relative;
+  }
+  &__spinner_container {
     width: 80px;
     height: 80px;
     background-color: $c__primary;
@@ -173,124 +196,59 @@
     transition: transform 750ms $t__in_out_quart;
     transition-delay: 250ms;
   }
-}
-
-.double-bounce1,
-.double-bounce2 {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background-color: rgba(white, 0.6);
-  position: absolute;
-  top: 0;
-  left: 0;
-  animation: sk-bounce 2s infinite ease-in-out;
-}
-
-.double-bounce2 {
-  animation-delay: -1s;
-}
-
-.output-container {
-  min-width: 330px;
-  padding-bottom: 35px;
-}
-
-#input-img {
-  width: 250;
-  height: 250;
-}
-.center-container {
-  /*display: flex;*/
-  display: none;
-  justify-content: center;
-}
-
-.body-container.camera .center-container {
-  display: flex;
-}
-
-.body-container.stylized #output-img-container {
-  display: flex;
-}
-
-.body-container.loaded {
-  //display: none;
-  .double-bounce1 {
-    animation: anim__loader--cam1 2s forwards;
+  &__spinner_dot {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(white, 0.6);
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: anim__bounce 2s infinite ease-in-out;
   }
-  .double-bounce2 {
-    animation: anim__loader--cam2 2s forwards;
+  &__spinner_dot--2 {
+    animation-delay: -1s;
   }
-  .register__spinner_cam_base {
-    opacity: 1;
+  &__input_inner {
+    display: none;
+    justify-content: center;
+  }
+  &__image_anchor {
+    display: block;
+    border: 5px solid transparent;
+    display: flex;
+    transition: border-color 250ms ease-out;
+    &.active {
+      border-color: $c__primary;
+    }
+  }
+  &__photo_button,
+  &__print_button {
+    height: 50px;
+    width: 200px;
+    border-radius: 25px;
+    font-size: 24px;
+    background: $c__primary--dark;
+    color: #ffffff;
+    padding: 5px 15px;
+    transition: all ease-in-out 0.5s;
+    justify-content: center;
+    display: none;
+    &:hover {
+      background-color: $c__primary;
+      color: $c__primary--dark;
+    }
+  }
+  &__output_container {
+    display: none;
+    justify-content: center;
+  }
+  &__reverse_image {
+    transform: scaleX(-1);
   }
 }
 
-.body-container.camera #output-img-container {
-  display: none;
-}
-
-.link {
-  display: none;
-}
-
-.body-container.loaded.camera .link {
-  display: none;
-}
-
-.body-container.camera .start-btn {
-  display: flex;
-}
-
-.body-container.loaded .link {
-  display: block;
-}
-
-.style-container {
-  display: flex;
-  justify-content: space-around;
-  min-width: 250px;
-  margin-top: 20px;
-}
-
-.imageAnchor {
-  display: block;
-  border: 5px solid transparent;
-  display: flex;
-  transition: border-color 250ms ease-out;
-}
-.imageAnchor.active {
-  border-color: $c__primary;
-}
-
-.start-btn,
-.register__print_button {
-  height: 50px;
-  width: 200px;
-  border-radius: 25px;
-  font-size: 24px;
-  background: $c__primary--dark;
-  color: #ffffff;
-  padding: 5px 15px;
-  transition: all ease-in-out 0.5s;
-  justify-content: center;
-  display: none;
-  &:hover {
-    background-color: $c__primary;
-    color: $c__primary--dark;
-  }
-}
-#output-img-container {
-  display: none;
-  justify-content: center;
-}
-.reverse-img {
-  -webkit-transform: scaleX(-1);
-  transform: scaleX(-1);
-}
-
-@keyframes sk-bounce {
+@keyframes anim__bounce {
   0%,
   100% {
     transform: scale(0);
