@@ -96,7 +96,7 @@ function draw() { //TODO: remove?
 }
 
 function updateStyleImg(eleLink) {
-  let ele = eleLink.querySelector('.image');
+  let ele = eleLink.querySelector('.register__style_image');
   $printButton.attr('disabled','disabled');
   $bodyContainer.addClass('processing');
   document.querySelectorAll('.register__image_anchor').forEach((styleLink,i)=>{
@@ -158,7 +158,7 @@ function useWebcam() {
 function deactiveWebcam() {
   start = false;
   select('#input-img').show();
-  outputImgContainer.removeClass('reverse-img');
+  outputImgContainer.removeClass('register__reverse_image');
   webcam = false;
   if (video) {
     video.hide();
