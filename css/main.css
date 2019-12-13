@@ -398,6 +398,15 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 .register__body_container.stylized .register__print_button {
   display: flex;
 }
+.register__body_container.loaded.camera .register__spinner_cam_base {
+  opacity: 0;
+}
+.register__body_container.loaded.camera .register__spinner_container {
+  transform: scale(0);
+}
+.register__body_container.loaded.camera .register__input_container {
+  display: flex;
+}
 .register__status_text_container {
   text-align: center;
   padding-top: 100px;
@@ -437,7 +446,7 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   z-index: 10;
   width: 100%;
   height: 100%;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -476,6 +485,23 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   display: flex;
   justify-content: center;
 }
+.register__spinner_cam_base_container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.register__spinner_cam_base {
+  opacity: 0;
+  transition: opacity 250ms linear;
+  position: absolute;
+  bottom: 0;
+  transform: translateY(22px);
+}
+.register__spinner_cam_base path {
+  fill: #16dcab;
+}
 
 .spinner {
   width: 40px;
@@ -490,6 +516,9 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  transition: transform 750ms cubic-bezier(0.77, 0, 0.175, 1);
+  transition-delay: 250ms;
 }
 
 .double-bounce1,
@@ -501,33 +530,13 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   position: absolute;
   top: 0;
   left: 0;
-  -webkit-animation: sk-bounce 2s infinite ease-in-out;
   animation: sk-bounce 2s infinite ease-in-out;
 }
 
 .double-bounce2 {
-  -webkit-animation-delay: -1s;
   animation-delay: -1s;
 }
 
-@-webkit-keyframes sk-bounce {
-  0%, 100% {
-    -webkit-transform: scale(0);
-  }
-  50% {
-    -webkit-transform: scale(1);
-  }
-}
-@keyframes sk-bounce {
-  0%, 100% {
-    transform: scale(0);
-    -webkit-transform: scale(0);
-  }
-  50% {
-    transform: scale(1);
-    -webkit-transform: scale(1);
-  }
-}
 .output-container {
   min-width: 330px;
   padding-bottom: 35px;
@@ -552,8 +561,14 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   display: flex;
 }
 
-.body-container.loaded .loader-container {
-  display: none;
+.body-container.loaded .double-bounce1 {
+  animation: anim__loader--cam1 2s forwards;
+}
+.body-container.loaded .double-bounce2 {
+  animation: anim__loader--cam2 2s forwards;
+}
+.body-container.loaded .register__spinner_cam_base {
+  opacity: 1;
 }
 
 .body-container.camera #output-img-container {
@@ -594,7 +609,8 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   border-color: #16dcab;
 }
 
-.start-btn, .register__print_button {
+.start-btn,
+.register__print_button {
   height: 50px;
   width: 200px;
   border-radius: 25px;
@@ -606,7 +622,8 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   justify-content: center;
   display: none;
 }
-.start-btn:hover, .register__print_button:hover {
+.start-btn:hover,
+.register__print_button:hover {
   background-color: #16dcab;
   color: #0a7058;
 }
@@ -621,6 +638,55 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   transform: scaleX(-1);
 }
 
+@keyframes sk-bounce {
+  0%, 100% {
+    transform: scale(0);
+    -webkit-transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
+}
+@keyframes anim__loader--cam1 {
+  50% {
+    background-color: black;
+  }
+  100% {
+    background-color: black;
+  }
+}
+@keyframes anim__loader--cam2 {
+  5% {
+    background-color: #16dcab;
+    transform: scale(0.5);
+  }
+  30% {
+    transform: scale(0.5);
+  }
+  40% {
+    transform: scale(0.5) translate(0, 15px);
+  }
+  60% {
+    transform: scale(0.5) translate(0, 15px);
+  }
+  70% {
+    transform: scale(0.5) translate(0, -15px);
+  }
+  85% {
+    transform: scale(0.5) translate(0, -15px);
+  }
+  90% {
+    transform: scale(0.5) translate(0, 0);
+  }
+  95% {
+    transform: scale(0.65) translate(0, 0);
+  }
+  100% {
+    transform: scale(0.5) translate(0, 0);
+    background-color: #16dcab;
+  }
+}
 .bc__container {
   display: flex;
   position: absolute;

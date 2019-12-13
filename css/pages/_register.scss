@@ -20,6 +20,18 @@
         display: flex;
       }
     }
+    &.loaded.camera {
+      .register__spinner_cam_base {
+          opacity: 0;
+      }
+      .register__spinner_container {
+        transform: scale(0);
+      }
+
+      .register__input_container {
+        display: flex;
+      }
+    }
   }
   &__status_text_container {
     text-align: center;
@@ -55,12 +67,13 @@
   &__webcam_link {
     background-color: transparent;
   }
-  &__input_container, &__output_container {
+  &__input_container,
+  &__output_container {
     position: absolute;
     z-index: 10;
     width: 100%;
     height: 100%;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -99,6 +112,23 @@
     display: flex;
     justify-content: center;
   }
+  &__spinner_cam_base_container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+  &__spinner_cam_base {
+    opacity: 0;
+    transition: opacity 250ms linear;
+    position: absolute;
+    bottom: 0;
+    transform: translateY(22px);
+    & path {
+      fill: $c__primary;
+    }
+  }
 }
 
 .spinner {
@@ -114,6 +144,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    transition: transform 750ms $t__in_out_quart;
+    transition-delay: 250ms;
   }
 }
 
@@ -126,36 +159,11 @@
   position: absolute;
   top: 0;
   left: 0;
-
-  -webkit-animation: sk-bounce 2s infinite ease-in-out;
   animation: sk-bounce 2s infinite ease-in-out;
 }
 
 .double-bounce2 {
-  -webkit-animation-delay: -1s;
   animation-delay: -1s;
-}
-
-@-webkit-keyframes sk-bounce {
-  0%,
-  100% {
-    -webkit-transform: scale(0);
-  }
-  50% {
-    -webkit-transform: scale(1);
-  }
-}
-
-@keyframes sk-bounce {
-  0%,
-  100% {
-    transform: scale(0);
-    -webkit-transform: scale(0);
-  }
-  50% {
-    transform: scale(1);
-    -webkit-transform: scale(1);
-  }
 }
 
 .output-container {
@@ -181,8 +189,17 @@
   display: flex;
 }
 
-.body-container.loaded .loader-container {
-  display: none;
+.body-container.loaded {
+  //display: none;
+  .double-bounce1 {
+    animation: anim__loader--cam1 2s forwards;
+  }
+  .double-bounce2 {
+    animation: anim__loader--cam2 2s forwards;
+  }
+  .register__spinner_cam_base {
+    opacity: 1;
+  }
 }
 
 .body-container.camera #output-img-container {
@@ -222,7 +239,8 @@
   border-color: $c__primary;
 }
 
-.start-btn, .register__print_button {
+.start-btn,
+.register__print_button {
   height: 50px;
   width: 200px;
   border-radius: 25px;
@@ -245,4 +263,65 @@
 .reverse-img {
   -webkit-transform: scaleX(-1);
   transform: scaleX(-1);
+}
+
+@keyframes sk-bounce {
+  0%,
+  100% {
+    transform: scale(0);
+    -webkit-transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
+}
+
+@keyframes anim__loader--cam1 {
+  50% {
+    background-color: black;
+  }
+  100% {
+    background-color: black;
+  }
+}
+
+@keyframes anim__loader--cam2 {
+  5% {
+    background-color: $c__primary;
+    transform: scale(0.5);
+  }
+
+  30% {
+    transform: scale(0.5);
+  }
+
+  40% {
+    transform: scale(0.5) translate(0, 15px);
+  }
+
+  60% {
+    transform: scale(0.5) translate(0, 15px);
+  }
+
+  70% {
+    transform: scale(0.5) translate(0, -15px);
+  }
+
+  85% {
+    transform: scale(0.5) translate(0, -15px);
+  }
+
+  90% {
+    transform: scale(0.5) translate(0, 0);
+  }
+
+  95% {
+    transform: scale(0.65) translate(0, 0);
+  }
+
+  100% {
+    transform: scale(0.5) translate(0, 0);
+    background-color: $c__primary;
+  }
 }

@@ -89,7 +89,9 @@ function predictImg(modelName) {
 }
 
 function draw() {
+  
   if (modelReady && webcam && video && video.elt && start && !isDrawn) {
+    console.log('raw');
     isDrawn = true;
     //predictImg(currentModel);
     predictVideo(currentModel);
@@ -104,17 +106,23 @@ function updateStyleImg(eleLink) {
     }
   });
   eleLink.classList.add('active');
-  if (ele.src) {
-    currentModel = ele.id;
-  }
-  if (currentModel && webcam) {
-    //predictImg(currentModel);
-    outputImgData = nets[currentModel].predict(savedFrame);
-    outputImg = ml5.array3DToImage(outputImgData);
-    outputImgContainer.elt.src = outputImg.src;
-    isLoading = false;
-    //isDrawn = false;
-  }
+  $('.register__status').text('Loading new style...');
+
+  setTimeout(()=>{ //timeout necessary because process bogs down any style setting
+    if (ele.src) {
+      currentModel = ele.id;
+    }
+    if (currentModel && webcam) {
+      //predictImg(currentModel);
+      outputImgData = nets[currentModel].predict(savedFrame);
+      outputImg = ml5.array3DToImage(outputImgData);
+      outputImgContainer.elt.src = outputImg.src;
+      isLoading = false;
+      //isDrawn = false;
+      $('.register__status').text('Choose a style for your image. Then press print');
+    }
+  },510)
+
 }
 
 function updateInputImg(ele) {
@@ -159,9 +167,19 @@ function deactiveWebcam() {
 }
 
 function onPredictClick() {
-  if (webcam) start = true;
-  predictVideo(currentModel);
-  //predictImg(currentModel);
+
+  if (webcam){
+    $('.register__status').text('Hold still! This could take a minute');
+    $('.register__photo_button').text('Processing');
+    video.pause();
+    setTimeout(()=>{ //timeout necessaru tp prevent processing from blocking 
+      predictVideo(currentModel);
+    },100);
+    
+  } else {
+    console.log('no webcam found');
+  }
+  
 }
 
 function allowFirefoxGetCamera() {
