@@ -25,10 +25,20 @@ let $printButton = $('.register__print_button');
 
 let savedFrame; //will contain video image when pic taken
 
+const regsiterContent = {
+  noSafari: "Sorry we do not yet support your device, please open this page with Chrome on a desktop. We will support other devices in the near future!",
+  allowCamera: "Click camera icon below to allow access",
+  chooseStyle: "Choose a style for your image. Then press print",
+  loadingStyle: "Loading new style...",
+  poseText: "Pose for the camera",
+  predictText: "Hold still! This could take a minute"
+}
+
+
 function setup() {
   isSafa = isSafari();
   if (isSafa) {
-    alert('Sorry we do not yet support your device, please open this page with Chrome on a desktop. We will support other devices in the near future!');
+    alert(regsiterContent.noSafari);
     return;
   }
 
@@ -57,7 +67,7 @@ function modelLoaded() {
     outputImgContainer.elt.src = 'images/checkmark.png';  
     //predictImg(currentModel);
     $bodyContainer.addClass('loaded');
-    $status.text('Click camera icon below to allow access');
+    $status.text(regsiterContent.allowCamera);
   }
 }
 
@@ -68,9 +78,10 @@ function predictVideo(modelName) {
   outputImg = ml5.array3DToImage(outputImgData);
   savedFrame = outputImg;
   outputImgContainer.elt.src = outputImg.src;
+  $('.register__print_button').attr('href',outputImg.src); //MH
   isLoading = false;
   $bodyContainer.removeClass('camera processing').addClass('stylized');
-  $status.text('Choose a style for your image. Then press print');
+  $status.text(regsiterContent.chooseStyle);
 }
 
 function predictImg(modelName) {
@@ -105,7 +116,7 @@ function updateStyleImg(eleLink) {
     }
   });
   eleLink.classList.add('active');
-  $status.text('Loading new style...');
+  $status.text(regsiterContent.loadingStyle);
 
   setTimeout(()=>{ //timeout necessary because process bogs down any style setting
     if (ele.src) {
@@ -116,9 +127,12 @@ function updateStyleImg(eleLink) {
       outputImgData = nets[currentModel].predict(savedFrame);
       outputImg = ml5.array3DToImage(outputImgData);
       outputImgContainer.elt.src = outputImg.src;
+      
+      $('.register__print_button').attr('href',outputImg.src); //MH
+
       isLoading = false;
       //isDrawn = false;
-      $status.text('Choose a style for your image. Then press print');
+      $status.text(regsiterContent.chooseStyle);
       $bodyContainer.removeClass('processing');
       $printButton.removeAttr('disabled');
     }
@@ -152,7 +166,7 @@ function useWebcam() {
     $bodyContainer.removeClass('stylized');
   }
   $bodyContainer.addClass('camera');
-  $status.text('Pose for the camera');
+  $status.text(regsiterContent.poseText);
 }
 
 function deactiveWebcam() {
@@ -169,8 +183,7 @@ function deactiveWebcam() {
 function onPredictClick() {
 
   if (webcam){
-    $status.text('Hold still! This could take a minute');
-    //$('.register__photo_button').text('');
+    $status.text(regsiterContent.predictText);
     $bodyContainer.addClass('processing');
     video.pause();
     setTimeout(()=>{ //timeout necessaru tp prevent processing from blocking 
@@ -203,4 +216,7 @@ function onPrintClick(){
   setTimeout(()=>{
     window.location = "engage.html"
   },1000);
+  
+  //window.location.href = outputImg.src.replace('image/png', 'image/octet-stream'); //MH - also works but doesn't add extension or naming options
+
 }
