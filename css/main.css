@@ -48,6 +48,16 @@ a.button {
   align-items: center;
 }
 
+.home__particles_container, .home__circles_container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.home__circles_container {
+  z-index: 1;
+}
 .home__title {
   font-size: 48px;
   margin: 0;
@@ -61,6 +71,7 @@ a.button {
   display: flex;
   align-items: center;
   flex-direction: column;
+  z-index: 10;
 }
 .home__tagline {
   margin-top: 10px;

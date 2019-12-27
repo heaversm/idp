@@ -17,7 +17,9 @@ root.fixed = true;
 root.px = Math.floor(width/2);
 root.py = Math.floor(height/2);
 
-
+particlesJS.load('particles-js', 'data/particlesjs-config.json', function() {
+  console.log('callback - particles.js config loaded');
+});
 
 var force = d3.layout.force()
 .gravity(0.03)
@@ -27,7 +29,7 @@ var force = d3.layout.force()
 
 force.start();
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select(".home__circles_container").append("svg")
 .attr("width", width)
 .attr("height", height);
 
