@@ -16,7 +16,7 @@
   margin-top: 20px;
 }
 
-.select-instance {
+.select-instance, .collectives__register_button {
   color: white;
   background-color: #2b936b;
   border-radius: 8px;
@@ -301,4 +301,64 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   stroke-linecap: round;
   stroke-miterlimit: 10;
   stroke-width: 50px;
+}
+
+.collectives {
+  &__styles_outer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    //display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+    flex-direction: column;
+    z-index: 20;
+    transition: all 500ms ease-in-out;
+  }
+  &__styles_container {
+    width: 330px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  &__style_container {
+    position: relative;
+    margin-top: 5px;
+  }
+  &__style_image {
+    width: 100px;
+    height: 100px;
+  }
+  &__image_anchor {
+    display: block;
+    border: 5px solid transparent;
+    display: flex;
+    transition: border-color 250ms ease-out;
+    &.active {
+      border-color: $c__primary;
+    }
+  }
+  &__status_text {
+    font-size: 24px;
+  }
+  &__register_button {
+    margin-top: 20px;
+  }
+}
+
+body.stylize {
+  .collectives__styles_outer {
+    display: flex;
+  }
+}
+
+body.out {
+  .collectives__styles_outer {
+    transform: translateY(20px);
+    opacity: 0;
+  }
 }

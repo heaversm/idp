@@ -6,6 +6,7 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    z-index: 1;
     &.loaded {
       .register__spinner_dot--1 {
         animation: anim__loader--cam1 2s forwards;
@@ -39,7 +40,7 @@
         display: flex;
       }
       .register__reverse_image {
-        transform: translateY(-75px) scale(0.75);
+        transform: translateY(-75px) scale(-.75,0.75);
       }
       .register__print_button {
         display: flex;

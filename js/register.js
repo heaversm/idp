@@ -25,20 +25,24 @@ let $printButton = $('.register__print_button');
 
 let savedFrame; //will contain video image when pic taken
 
-const regsiterContent = {
+const urlParams = new URLSearchParams(window.location.search);
+const style = urlParams.get('style');
+
+const registerContent = {
   noSafari: "Sorry we do not yet support your device, please open this page with Chrome on a desktop. We will support other devices in the near future!",
   allowCamera: "Click camera icon below to allow access",
-  chooseStyle: "Choose a style for your image. Then press print",
+  chooseStyle: "Click the button below to proceed",
   loadingStyle: "Loading new style...",
   poseText: "Pose for the camera",
   predictText: "Hold still! This could take a minute"
 }
 
 
+
 function setup() {
   isSafa = isSafari();
   if (isSafa) {
-    alert(regsiterContent.noSafari);
+    alert(registerContent.noSafari);
     return;
   }
 
@@ -46,9 +50,12 @@ function setup() {
   inputImg = select('#input-img').elt;
 
   // load models
-  modelNames.forEach(n => {
-    nets[n] = new ml5.TransformNet('models/' + n + '/', modelLoaded);
-  });
+  // modelNames.forEach(n => {
+  //   nets[n] = new ml5.TransformNet('models/' + n + '/', modelLoaded);
+  // });
+
+  //load model from URL param:
+  nets[0] = new ml5.TransformNet('models/' + style + '/', modelLoaded);
 
   // Image uploader
 
@@ -61,27 +68,24 @@ function setup() {
 
 // A function to be called when the model has been loaded
 function modelLoaded() {
-  modelNum++;
-  if (modelNum >= modelNames.length) {
-    modelReady = true;
-    outputImgContainer.elt.src = 'images/checkmark.png';  
-    //predictImg(currentModel);
-    $bodyContainer.addClass('loaded');
-    $status.text(regsiterContent.allowCamera);
-  }
+  modelReady = true;
+  outputImgContainer.elt.src = 'images/checkmark.png';
+  //predictImg(currentModel);
+  $bodyContainer.addClass('loaded');
+  $status.text(registerContent.allowCamera);
 }
 
 function predictVideo(modelName) {
   isLoading = true;
   if (!modelReady) return;
-  outputImgData = nets[modelName].predict(video.elt);
+  outputImgData = nets[0].predict(video.elt);
   outputImg = ml5.array3DToImage(outputImgData);
   savedFrame = outputImg;
   outputImgContainer.elt.src = outputImg.src;
-  $('.register__print_button').attr('href',outputImg.src); //MH
+  $('.register__print_button').attr('href', outputImg.src); //MH
   isLoading = false;
   $bodyContainer.removeClass('camera processing').addClass('stylized');
-  $status.text(regsiterContent.chooseStyle);
+  $status.text(registerContent.chooseStyle);
 }
 
 function predictImg(modelName) {
@@ -98,46 +102,12 @@ function predictImg(modelName) {
 }
 
 function draw() { //TODO: remove?
-  
+
   if (modelReady && webcam && video && video.elt && start && !isDrawn) {
     isDrawn = true;
     //predictImg(currentModel);
     predictVideo(currentModel);
   }
-}
-
-function updateStyleImg(eleLink) {
-  let ele = eleLink.querySelector('.register__style_image');
-  $printButton.attr('disabled','disabled');
-  $bodyContainer.addClass('processing');
-  document.querySelectorAll('.register__image_anchor').forEach((styleLink,i)=>{
-    if (styleLink.classList.contains('active')){
-      styleLink.classList.remove('active');
-    }
-  });
-  eleLink.classList.add('active');
-  $status.text(regsiterContent.loadingStyle);
-
-  setTimeout(()=>{ //timeout necessary because process bogs down any style setting
-    if (ele.src) {
-      currentModel = ele.id;
-    }
-    if (currentModel && webcam) {
-      //predictImg(currentModel);
-      outputImgData = nets[currentModel].predict(savedFrame);
-      outputImg = ml5.array3DToImage(outputImgData);
-      outputImgContainer.elt.src = outputImg.src;
-      
-      $('.register__print_button').attr('href',outputImg.src); //MH
-
-      isLoading = false;
-      //isDrawn = false;
-      $status.text(regsiterContent.chooseStyle);
-      $bodyContainer.removeClass('processing');
-      $printButton.removeAttr('disabled');
-    }
-  },510);
-
 }
 
 function updateInputImg(ele) {
@@ -162,11 +132,11 @@ function useWebcam() {
   select('#input-img').hide();
   outputImgContainer.addClass('register__reverse_image');
   const isStylized = $bodyContainer.hasClass('stylized');
-  if (isStylized){
+  if (isStylized) {
     $bodyContainer.removeClass('stylized');
   }
   $bodyContainer.addClass('camera');
-  $status.text(regsiterContent.poseText);
+  $status.text(registerContent.poseText);
 }
 
 function deactiveWebcam() {
@@ -182,22 +152,22 @@ function deactiveWebcam() {
 
 function onPredictClick() {
 
-  if (webcam){
-    $status.text(regsiterContent.predictText);
+  if (webcam) {
+    $status.text(registerContent.predictText);
     $bodyContainer.addClass('processing');
     video.pause();
-    setTimeout(()=>{ //timeout necessaru tp prevent processing from blocking 
+    setTimeout(() => { //timeout necessaru tp prevent processing from blocking 
       predictVideo(currentModel);
-    },1000);
-    
+    }, 1000);
+
   } else {
     console.log('no webcam found');
   }
-  
+
 }
 
 function allowFirefoxGetCamera() {
-  navigator.getUserMedia = ( navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+  navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 }
 
 function isSafari() {
@@ -211,12 +181,12 @@ function isSafari() {
   }
 }
 
-function onPrintClick(){
+function onPrintClick() {
   $bodyContainer.addClass('outro');
-  setTimeout(()=>{
+  setTimeout(() => {
     window.location = "engage.html"
-  },1000);
-  
+  }, 1000);
+
   //window.location.href = outputImg.src.replace('image/png', 'image/octet-stream'); //MH - also works but doesn't add extension or naming options
 
 }

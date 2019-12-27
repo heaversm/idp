@@ -110,7 +110,7 @@ a.button {
   margin-top: 20px;
 }
 
-.select-instance {
+.select-instance, .collectives__register_button {
   color: white;
   background-color: #2b936b;
   border-radius: 8px;
@@ -121,7 +121,7 @@ a.button {
   font-size: 18px;
   cursor: pointer;
 }
-.select-instance:hover, .select-instance:active, .select-instance:focus {
+.select-instance:hover, .select-instance:active, .select-instance:focus, .collectives__register_button:hover, .collectives__register_button:active, .collectives__register_button:focus {
   color: #0a7058;
   background-color: #16dcab;
 }
@@ -390,6 +390,59 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   stroke-width: 50px;
 }
 
+.collectives__styles_outer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  display: none;
+  flex-direction: column;
+  z-index: 20;
+  transition: all 500ms ease-in-out;
+}
+.collectives__styles_container {
+  width: 330px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.collectives__style_container {
+  position: relative;
+  margin-top: 5px;
+}
+.collectives__style_image {
+  width: 100px;
+  height: 100px;
+}
+.collectives__image_anchor {
+  display: block;
+  border: 5px solid transparent;
+  display: flex;
+  transition: border-color 250ms ease-out;
+}
+.collectives__image_anchor.active {
+  border-color: #16dcab;
+}
+.collectives__status_text {
+  font-size: 24px;
+}
+.collectives__register_button {
+  margin-top: 20px;
+}
+
+body.stylize .collectives__styles_outer {
+  display: flex;
+}
+
+body.out .collectives__styles_outer {
+  transform: translateY(20px);
+  opacity: 0;
+}
+
 .register__body_container {
   position: absolute;
   top: 0;
@@ -397,6 +450,7 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  z-index: 1;
 }
 .register__body_container.loaded .register__spinner_dot--1 {
   animation: anim__loader--cam1 2s forwards;
@@ -426,7 +480,7 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   display: flex;
 }
 .register__body_container.stylized .register__reverse_image {
-  transform: translateY(-75px) scale(0.75);
+  transform: translateY(-75px) scale(-0.75, 0.75);
 }
 .register__body_container.stylized .register__print_button {
   display: flex;
