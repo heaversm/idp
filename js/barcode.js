@@ -179,7 +179,7 @@ $(function () {
       $('body').addClass('out');
       $('.barcode__title').html('Success. One moment please.');
       console.log(recognizedCode);
-      //TODO: log to local storage
+      sessionStorage.setItem('barcode', recognizedCode);
       setTimeout(()=>{
         Quagga.stop();
         $('body').addClass('done');

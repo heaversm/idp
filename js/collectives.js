@@ -29,6 +29,7 @@ window.onload = function () {
     
 
     let currentModel = "wave";
+    let chosenCollective = null;
 
 
     initializeFirstItem();
@@ -70,7 +71,6 @@ window.onload = function () {
         var rotateIndex = curIndex; //MH - 0 index is at the left position , so two turns will get it to the top, thus the -2
 
         rotateAmt = -rotateIndex * 40;
-        console.log(curIndex, rotateAmt);
 
         $wrapper.css({ 'transform': 'translate(-50%,-50%) rotate(' + rotateAmt + 'deg' });
         displayContent();
@@ -81,6 +81,7 @@ window.onload = function () {
         e.stopPropagation();
         $contentWrapper.removeClass('active');
         //$(button).trigger('click');
+        
         closeNav();
     }
 
@@ -124,7 +125,7 @@ window.onload = function () {
         var curText = $curSpan.text();
         $contentWrapper.find('.title').text(curText);
         $contentWrapper.addClass('active');
-
+        chosenCollective = curText;
     }
 
     function updateStyleImg(e) {
@@ -145,10 +146,20 @@ window.onload = function () {
 
     function handleRegisterClick(){
         $('body').addClass('out');
+        storeSelections();
+    }
+
+    function storeSelections(){
+        //currentModel, chosenCollective
+        sessionStorage.setItem('chosenModel', currentModel);
+        sessionStorage.setItem('chosenCollective',chosenCollective);
+        advanceToRegisterScreen();
+    }
+
+    function advanceToRegisterScreen(){
         setTimeout(()=>{
             window.location = `register.html?style=${currentModel}`;
         },500);
-        
     }
     //document.addEventListener('click', closeNav);
 

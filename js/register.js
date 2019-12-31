@@ -70,7 +70,6 @@ function setup() {
 function modelLoaded() {
   modelReady = true;
   outputImgContainer.elt.src = 'images/checkmark.png';
-  //predictImg(currentModel);
   $bodyContainer.addClass('loaded');
   $status.text(registerContent.allowCamera);
 }
@@ -88,38 +87,14 @@ function predictVideo(modelName) {
   $status.text(registerContent.chooseStyle);
 }
 
-function predictImg(modelName) {
-  isLoading = true;
-  if (!modelReady) return;
-  if (webcam && video) {
-    outputImgData = nets[modelName].predict(video.elt);
-  } else if (inputImg) {
-    outputImgData = nets[modelName].predict(inputImg);
-  }
-  outputImg = ml5.array3DToImage(outputImgData);
-  outputImgContainer.elt.src = outputImg.src;
-  isLoading = false;
-}
-
 function draw() { //TODO: remove?
 
   if (modelReady && webcam && video && video.elt && start && !isDrawn) {
     isDrawn = true;
-    //predictImg(currentModel);
     predictVideo(currentModel);
   }
 }
 
-function updateInputImg(ele) {
-  deactiveWebcam();
-  if (ele.src) inputImg.src = ele.src;
-  predictImg(currentModel);
-}
-
-function uploadImg() {
-  uploader.click();
-  deactiveWebcam();
-}
 
 function useWebcam() {
   if (!video) {
@@ -183,10 +158,70 @@ function isSafari() {
 
 function onPrintClick() {
   $bodyContainer.addClass('outro');
+  uploadToCloudStorage();
+}
+
+function generateFilename() { 
+  var d = new Date().getTime();
+  if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
+    d += performance.now(); //use high-precision timer if available
+  }
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    var r = (d + Math.random() * 16) % 16 | 0;
+    d = Math.floor(d / 16);
+    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  });
+}
+
+function dataURLtoBlob(dataurl) {
+  var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+  while(n--){
+      u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new Blob([u8arr], {type:mime});
+}
+
+
+function uploadToCloudStorage(){
+  //FIREBASE 
+
+  const chosenModel = sessionStorage.getItem('chosenModel');
+  const chosenCollective = sessionStorage.getItem('chosenCollective');
+  const barcode = sessionStorage.getItem('barcode');
+
+  let userMetadata = {
+    "chosenModel": chosenModel ? chosenModel : '',
+    "chosenCollective": chosenCollective ? chosenCollective : '',
+    "barcode" : barcode ? barcode : ''
+  }
+  
+  const metadata = {
+    contentType: 'image/png',
+    customMetadata: userMetadata,
+  };
+
+  outputImg.crossOrigin = 'anonymous';
+  filename = generateFilename();
+
+  let uploadImage = dataURLtoBlob(outputImg.src);
+  
+  const uploadTask = storageRef.child(`images/${filename}`).put(uploadImage, metadata); //create a child directory called images, and place the file inside this directory
+  uploadTask.on('state_changed', (snapshot) => {
+    console.log(snapshot);
+    // Observe state change events such as progress, pause, and resume
+  }, (error) => {
+    // Handle unsuccessful uploads
+    console.log(error);
+  }, () => {
+    // Do something once upload is complete
+    handleDataSubmitted();
+  });
+  
+}
+
+function handleDataSubmitted(){
   setTimeout(() => {
     window.location = "engage.html"
   }, 1000);
-
-  //window.location.href = outputImg.src.replace('image/png', 'image/octet-stream'); //MH - also works but doesn't add extension or naming options
-
 }
