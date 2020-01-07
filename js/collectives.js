@@ -4,29 +4,27 @@ window.onload = function () {
         wrapper = document.getElementById('cn-wrapper'),
         overlay = document.getElementById('cn-overlay');
 
-        $selectButton = document.querySelector('.select-instance');
-        $registerButton = this.document.querySelector('.collectives__register_button');
-        
-        $wrapper = $('.cn-wrapper');
-        $contentWrapper = $('.content-wrapper');
-        $petals = $('.petal');
-        
-        var $arrow = $('.arrow');
-        var curIndex = 0;
-        var totalIndex = 8;
-        var rotateAmt = 0;
-        
-        //open and close menu when the button is clicked
-        var open = false;
-        button.addEventListener('click', handler, false);
-        wrapper.addEventListener('click', cnhandle, false);
-        $registerButton.addEventListener('click',handleRegisterClick);
-        $('.collectives__image_anchor').on('click',updateStyleImg);
-        
+    $selectButton = document.querySelector('.select-instance');
+    $registerButton = this.document.querySelector('.collectives__register_button');
+
+    $wrapper = $('.cn-wrapper');
+    $contentWrapper = $('.content-wrapper');
+    $petals = $('.petal');
+
+    var $arrow = $('.arrow');
+    var curIndex = 0;
+    var totalIndex = 8;
+    var rotateAmt = 0;
+
+    //open and close menu when the button is clicked
+    var open = false;
+    button.addEventListener('click', handler, false);
+    wrapper.addEventListener('click', cnhandle, false);
+
     $arrow.on('click', onArrowClick);
     $petals.on('click', onPetalClick);
     $('.select-instance').on('click', onInstanceClick);
-    
+
 
     let currentModel = "wave";
     let chosenCollective = null;
@@ -66,6 +64,11 @@ window.onload = function () {
     }
 
     function onPetalClick() {
+        const eleLink = $(this)[0];
+        let ele = eleLink.querySelector('.collectives__petal_image');
+        if (ele.src) {
+            currentModel = ele.id;
+        }
         var $thisPetal = $(this);
         curIndex = $thisPetal.index();
         var rotateIndex = curIndex; //MH - 0 index is at the left position , so two turns will get it to the top, thus the -2
@@ -77,12 +80,13 @@ window.onload = function () {
 
     }
 
-    function onInstanceClick(e) {
+    function onInstanceClick(e) { //MERGE!
         e.stopPropagation();
         $contentWrapper.removeClass('active');
-        //$(button).trigger('click');
-        
         closeNav();
+        setTimeout(() => {
+            storeSelections();
+        }, 1500);
     }
 
     function cnhandle(e) {
@@ -106,15 +110,9 @@ window.onload = function () {
     }
     function closeNav() {
         open = false;
-
         classie.remove(overlay, 'on-overlay');
         classie.remove(wrapper, 'opened-nav');
-        //$(button).removeClass('active');
         $arrow.removeClass('active');
-        setTimeout(() => {
-            //window.location = 'register.html'
-            $('body').addClass('stylize');
-        }, 1500); //MH - how much time?
     }
 
     function displayContent() {
@@ -128,40 +126,11 @@ window.onload = function () {
         chosenCollective = curText;
     }
 
-    function updateStyleImg(e) {
-        e.preventDefault();
-        const eleLink = $(this)[0];
-        let ele = eleLink.querySelector('.collectives__style_image');
-        document.querySelectorAll('.collectives__image_anchor').forEach((styleLink, i) => {
-            if (styleLink.classList.contains('active')) {
-                styleLink.classList.remove('active');
-            }
-        });
-        eleLink.classList.add('active');
-        if (ele.src) {
-            currentModel = ele.id;
-        }
-
-    }
-
-    function handleRegisterClick(){
-        $('body').addClass('out');
-        storeSelections();
-    }
-
-    function storeSelections(){
+    function storeSelections() {
         //currentModel, chosenCollective
         sessionStorage.setItem('chosenModel', currentModel);
-        sessionStorage.setItem('chosenCollective',chosenCollective);
-        advanceToRegisterScreen();
+        sessionStorage.setItem('chosenCollective', chosenCollective);
+        window.location = `register.html?style=${currentModel}`;
     }
-
-    function advanceToRegisterScreen(){
-        setTimeout(()=>{
-            window.location = `register.html?style=${currentModel}`;
-        },500);
-    }
-    //document.addEventListener('click', closeNav);
-
 }
 
