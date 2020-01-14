@@ -2,6 +2,7 @@
 
 IDLE_TIME = 30000; //ms
 REDIRECT_TIME = 5000; //ms - time since displaying idle warning before redirecting to start
+IS_ACTIVE = false;
 
 let redirectTimeout = null;
 
@@ -32,7 +33,9 @@ function addListeners(){
 }
 
 $(window).load(()=>{
-  console.log('load')
-  addIdle();
-  addListeners();
+  if (IS_ACTIVE){
+    console.log('activate idle functionality')
+    addIdle();
+    addListeners();
+  }
 });

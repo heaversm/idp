@@ -68,9 +68,6 @@
       .register__loader_container {
         display: none;
       }
-      .register__status_text_container {
-        opacity: 0;
-      }
     }
     &.processing {
       .process__button {
@@ -79,6 +76,11 @@
         span {
           display: none;
         }
+      }
+    }
+    &.done {
+      .register__status_text_container {
+        opacity: 0;
       }
     }
   }
@@ -239,6 +241,9 @@
       background-color: $c__primary;
       color: $c__primary--dark;
     }
+  }
+  &__print_button {
+    visibility: hidden;
   }
   &__output_container {
     display: none;

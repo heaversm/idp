@@ -23,6 +23,8 @@ let $bodyContainer = $('.register__body_container');
 let $status = $('.register__status');
 let $printButton = $('.register__print_button');
 
+const OUTRO_DELAY = 3000;
+
 let savedFrame; //will contain video image when pic taken
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -31,10 +33,10 @@ const style = urlParams.get('style');
 const registerContent = {
   noSafari: "Sorry we do not yet support your device, please open this page with Chrome on a desktop. We will support other devices in the near future!",
   allowCamera: "Click camera icon below to allow access",
-  chooseStyle: "Click the button below to proceed",
   loadingStyle: "Loading new style...",
   poseText: "Pose for the camera",
-  predictText: "Hold still! This could take a minute"
+  predictText: "Hold still! This could take a minute",
+  savingText: "Saving image to server",
 }
 
 
@@ -92,8 +94,13 @@ function predictVideo(modelName) {
   $('.register__print_button').attr('href', outputImg.src); //MH
   isLoading = false;
   $bodyContainer.removeClass('camera processing').addClass('stylized');
-  $status.text(registerContent.chooseStyle);
+  $status.text(registerContent.savingText);
+  setTimeout(()=>{
+    handleOutro();
+  },OUTRO_DELAY);
 }
+
+
 
 function draw() { //TODO: remove?
 
@@ -170,7 +177,11 @@ function isSafari() {
 }
 
 function onPrintClick() {
-  $bodyContainer.addClass('outro');
+  //handleOutro();
+}
+
+function handleOutro(){
+  $('.register__print_button')[0].click();
   uploadToCloudStorage();
 }
 
@@ -228,13 +239,15 @@ function uploadToCloudStorage(){
     console.log(error);
   }, () => {
     // Do something once upload is complete
-    handleDataSubmitted();
+    console.log('upload complete');
+    goToNextScreen();
   });
   
 }
 
-function handleDataSubmitted(){
+function goToNextScreen(){
+  $bodyContainer.addClass('outro');
   setTimeout(() => {
-    window.location = "engage.html"
+    //window.location = "engage.html"
   }, 1000);
 }
