@@ -71,7 +71,15 @@ function modelLoaded() {
   modelReady = true;
   outputImgContainer.elt.src = 'images/checkmark.png';
   $bodyContainer.addClass('loaded');
-  $status.text(registerContent.allowCamera);
+  const hasAllowedCamera = localStorage.getItem("allowedCamera");
+  console.log('allowCamera',hasAllowedCamera);
+  if (!hasAllowedCamera){
+    $status.text(registerContent.allowCamera);
+  } else {
+    console.log('use webcam');
+    useWebcam();
+  }
+  
 }
 
 function predictVideo(modelName) {
@@ -93,6 +101,11 @@ function draw() { //TODO: remove?
     isDrawn = true;
     predictVideo(currentModel);
   }
+}
+
+function onWebcamClick(){
+  localStorage.setItem("allowedCamera",true);
+  useWebcam();
 }
 
 

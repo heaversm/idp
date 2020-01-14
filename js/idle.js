@@ -1,6 +1,6 @@
 //https://github.com/kidh0/jquery.idle
 
-IDLE_TIME = 3000; //ms
+IDLE_TIME = 30000; //ms
 REDIRECT_TIME = 5000; //ms - time since displaying idle warning before redirecting to start
 
 let redirectTimeout = null;
