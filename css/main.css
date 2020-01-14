@@ -190,7 +190,8 @@ a.button {
   margin-top: 20px;
 }
 
-.select-instance, .collectives__register_button {
+.select-instance,
+.collectives__register_button {
   color: white;
   background-color: #2b936b;
   border-radius: 8px;
@@ -201,7 +202,10 @@ a.button {
   font-size: 18px;
   cursor: pointer;
 }
-.select-instance:hover, .select-instance:active, .select-instance:focus, .collectives__register_button:hover, .collectives__register_button:active, .collectives__register_button:focus {
+.select-instance:hover, .select-instance:active, .select-instance:focus,
+.collectives__register_button:hover,
+.collectives__register_button:active,
+.collectives__register_button:focus {
   color: #0a7058;
   background-color: #16dcab;
 }
@@ -220,6 +224,15 @@ a.button {
 .arrows__container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+  padding-left: 25px;
+  padding-right: 25px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .arrow {
@@ -241,6 +254,12 @@ a.button {
 }
 .arrow:hover line {
   stroke: #16dcab;
+}
+.arrow.left {
+  transform: rotate(180deg);
+}
+.arrow svg {
+  width: 40px;
 }
 
 .arrow.active {
@@ -448,18 +467,6 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 .cn-wrapper li:not(.active) a:focus {
   background-color: #0a7058;
   color: #16dcab;
-}
-
-.arrows__container {
-  width: 75%;
-  margin: 0 auto;
-}
-
-.arrow.left {
-  transform: rotate(180deg);
-}
-.arrow svg {
-  width: 40px;
 }
 
 .cls-1 {
@@ -860,6 +867,49 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 }
 .bc__item[href]:hover {
   color: #96f5dd;
+}
+
+.idle__modal_container {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+.idle__modal_container.active {
+  display: flex;
+}
+.idle__modal {
+  width: 500px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  border: 1px solid #16dcab;
+  border-radius: 20px;
+}
+.idle__modal_content {
+  text-align: center;
+}
+.idle__modal_message {
+  font-weight: 500;
+  font-size: 32px;
+  margin-bottom: 50px;
+}
+.idle__modal_button {
+  color: white;
+  background-color: #16dcab;
+  border-radius: 8px;
+  padding: 10px 20px;
+  min-width: 150px;
+  font-size: 18px;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=main.css.map */

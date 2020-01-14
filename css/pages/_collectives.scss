@@ -16,7 +16,8 @@
   margin-top: 20px;
 }
 
-.select-instance, .collectives__register_button {
+.select-instance,
+.collectives__register_button {
   color: white;
   background-color: #2b936b;
   border-radius: 8px;
@@ -38,7 +39,7 @@
   font-size: 14px;
   font-style: italic;
   white-space: nowrap;
-  color: darken(white,30%);
+  color: darken(white, 30%);
 }
 
 .content-wrapper.active {
@@ -48,7 +49,17 @@
 .arrows__container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+  padding-left: 25px;
+  padding-right: 25px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
+
 
 .arrow {
   display: inline-block;
@@ -70,6 +81,12 @@
     line {
       stroke: $c__primary;
     }
+  }
+  &.left {
+    transform: rotate(180deg);
+  }
+  svg {
+    width: 40px;
   }
 }
 
@@ -200,7 +217,6 @@
   text-align: center;
   transform: skew(-50deg) rotate(-70deg) scale(1) translate(60%);
   transition: opacity 0.3s, color 0.3s, height 1s, transform 1s linear;
-
 }
 
 .opened-nav li a {
@@ -282,19 +298,6 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   color: $c__primary;
 }
 
-.arrows__container {
-  width: 75%;
-  margin: 0 auto;
-}
-
-.arrow {
-  &.left {
-    transform: rotate(180deg);
-  }
-  svg {
-    width: 40px;
-  }
-}
 
 .cls-1 {
   fill: none;
