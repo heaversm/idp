@@ -604,15 +604,15 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 .register__body_container.outro .register__loader_container {
   display: none;
 }
+.register__body_container.outro .register__status_text_container {
+  opacity: 0;
+}
 .register__body_container.processing .process__button {
   width: 50px;
   animation: anim__process 2s infinite cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 .register__body_container.processing .process__button span {
   display: none;
-}
-.register__body_container.done .register__status_text_container {
-  opacity: 0;
 }
 .register__status_text_container {
   text-align: center;

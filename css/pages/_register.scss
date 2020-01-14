@@ -68,6 +68,9 @@
       .register__loader_container {
         display: none;
       }
+      .register__status_text_container {
+        opacity: 0;
+      }
     }
     &.processing {
       .process__button {
@@ -76,11 +79,6 @@
         span {
           display: none;
         }
-      }
-    }
-    &.done {
-      .register__status_text_container {
-        opacity: 0;
       }
     }
   }
