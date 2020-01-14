@@ -248,6 +248,6 @@ function uploadToCloudStorage(){
 function goToNextScreen(){
   $bodyContainer.addClass('outro');
   setTimeout(() => {
-    //window.location = "engage.html"
+    window.location = "engage.html"
   }, 1000);
 }
