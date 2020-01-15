@@ -1,6 +1,6 @@
 //https://github.com/kidh0/jquery.idle
 
-connst IDLE_TIME = 30000; //ms
+const IDLE_TIME = 30000; //ms
 const REDIRECT_TIME = 5000; //ms - time since displaying idle warning before redirecting to start
 const USE_IDLE = false;
 
@@ -31,9 +31,8 @@ function addIdle(){
 function addListeners(){
   $('.idle__modal_button').on('click',handleReturn);
 }
-connst 
-const $(window).load(()=>{
-  const if (USE_IDLE){
+$(window).load(()=>{
+  if (USE_IDLE){
     console.log('activate idle functionality')
     addIdle();
     addListeners();

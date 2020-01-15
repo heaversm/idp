@@ -57,6 +57,7 @@ a.button {
 }
 .home__circles_container {
   z-index: 1;
+  pointer-events: none;
 }
 .home__title {
   font-size: 48px;

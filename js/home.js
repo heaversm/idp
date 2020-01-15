@@ -1,4 +1,78 @@
 
+var isIdle = true; //when true, trigger passive animation
+var idleAF; //the request animation frame for the idle animation
+var idleTimeout; //the timeout that stops the idle animation from playing after the specified configObj.idlePlayTime amount
+var idleTime; //the idle timestamp received in the request animation frame - this helps us know how long the animation has been playing and run our oscillator / raf throttling
+var lastProgress, progress; //keeps track of time between animation calls in the request animation frame
+var diff; //keeps track of the difference between last progress and current progress in idle animation
+var iterationTimeout; //holds the timer to restart the idle animation - while this is running, we don't do any idle
+var tutorialActive = false; //when true, we are watching tutorial - disallow idle animation
+
+var ww,wh,wcx,wcy //window width,height,center of screen x, center of screen y
+
+configObj = {
+  idlePlayTime: 10000,
+  idleIterationDelayTime: 30000,
+  idleThrottleTime: 250,
+  idleAmplitude: 150,
+  idleAmpVariance: 50,
+  idlePeriod: 2000,
+  forceCenter: .5,
+}
+
+var randomNumber = function(min,max){ //create random integer
+  return Math.floor(Math.random()*(max-min+1)+min);
+}
+
+var startPassiveAnimation = function () {
+  clearTimeout(iterationTimeout);
+  clearTimeout(idleTimeout);
+  cancelAnimationFrame(idleAF);
+  idleAF = requestAnimationFrame(setRandomPosition);
+  idleTimeout = setTimeout(function () {
+    stopPassiveAnimation(true);
+  }, configObj.idlePlayTime);
+}
+
+var stopPassiveAnimation = function (restart) {
+  root.px = wcx;
+  root.py = wcy;
+  clearTimeout(idleTimeout);
+  cancelAnimationFrame(idleAF);
+  clearTimeout(iterationTimeout);
+  if (isIdle) {
+    iterationTimeout = setTimeout(startPassiveAnimation, configObj.idleIterationDelayTime);
+  }
+}
+
+var setRandomPosition = function (timestamp) { //we are manually moving the center of the force to scatter the circles based on an oscillator
+  if (isIdle) {
+    if (!idleTime) {
+      idleTime = timestamp;
+    }
+    if (!lastProgress) {
+      lastProgress = 0;
+    }
+
+    var progress = timestamp - idleTime;
+    diff = progress - lastProgress;
+
+    if (diff > configObj.idleThrottleTime) {
+      lastProgress = progress;
+
+      var nextAmp = randomNumber(configObj.idleAmplitude - configObj.idleAmpVariance, configObj.idleAmplitude + configObj.idleAmpVariance);
+      var nextX = nextAmp * Math.sin(progress * 2 * Math.PI / configObj.idlePeriod) + wcx;
+      var nextY = nextAmp * Math.cos(progress * 2 * Math.PI / configObj.idlePeriod) + (wh * configObj.forceCenter);
+      root.px = nextX
+      root.py = nextY
+      force.resume();
+    }
+
+    idleAF = requestAnimationFrame(setRandomPosition);
+
+  }
+}
+
 var width = window.innerWidth,
   height = window.innerHeight,
   numCircles = 100,
@@ -103,6 +177,13 @@ function collide(node) {
   };
 }
 
+initForceAnimation = function(){
+  ww = $(window).width();
+  wh = $(window).height();
+  wcx = Math.floor(ww/2);
+  wcy = Math.floor(wh/2);
+  setTimeout(startPassiveAnimation,10000);
+}
 
 //Intro
 
@@ -110,10 +191,10 @@ const $introModal = $('.intro__modal_container');
 let canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation, comp, lib, ss;
 
 
-$('.home__btn_intro').on('click',onIntroLinkClick);
-$introModal.on('click',handleCloseModal);
+$('.home__btn_intro').on('click', onIntroLinkClick);
+$introModal.on('click', handleCloseModal);
 
-$(window).load(()=>{
+$(window).load(() => {
   init();
 });
 
@@ -123,39 +204,58 @@ function initAnimation() {
   createjs.Ticker.addEventListener("tick", stage);
   comp.getStage().seek(0);
   comp.getStage().stop();
-}	  
+}
 
-function onIntroLinkClick(e){
+//https://github.com/VincentGarreau/particles.js/issues/88
+function stopParticles(){
+  pJSDom[0].pJS.particles.move.enable = false;
+}
+
+function startParticles(){
+  pJSDom[0].pJS.particles.move.enable = true;
+  pJSDom[0].pJS.fn.particlesRefresh();
+}
+
+function onIntroLinkClick(e) {
   e.preventDefault();
   $introModal.addClass('active');
   comp.getStage().play();
+  tutorialActive = true;
+  stopParticles();
+  stopPassiveAnimation();
+  isIdle = false;
 }
 
 function init() {
-	canvas = document.getElementById("canvas");
-	anim_container = document.getElementById("animation_container");
-	dom_overlay_container = document.getElementById("dom_overlay_container");
-	comp=AdobeAn.getComposition("D7D5DE1740A04999B0AB56BA8A4B3927");
-	lib=comp.getLibrary();
-	handleInitComplete({},comp);
+  initForceAnimation();
+
+  canvas = document.getElementById("canvas");
+  anim_container = document.getElementById("animation_container");
+  dom_overlay_container = document.getElementById("dom_overlay_container");
+  comp = AdobeAn.getComposition("D7D5DE1740A04999B0AB56BA8A4B3927");
+  lib = comp.getLibrary();
+  handleInitComplete({}, comp);
 }
 
-function handleInitComplete(evt,comp) {
-	//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
-	lib=comp.getLibrary();
-	ss=comp.getSpriteSheet();
-	exportRoot = new lib.intro2x();
-	stage = new lib.Stage(canvas);	
-	//Registers the "tick" event listener  
+function handleInitComplete(evt, comp) {
+  //This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
+  lib = comp.getLibrary();
+  ss = comp.getSpriteSheet();
+  exportRoot = new lib.intro2x();
+  stage = new lib.Stage(canvas);
+  //Registers the "tick" event listener  
   //Code to support hidpi screens and responsive scaling.
   //AdobeAn.makeResponsive(true,'both',true,1,[canvas,anim_container,dom_overlay_container]);
-  AdobeAn.makeResponsive(true,'both',false,1,[canvas,anim_container,dom_overlay_container]);
-	AdobeAn.compositionLoaded(lib.properties.id);
+  AdobeAn.makeResponsive(true, 'both', false, 1, [canvas, anim_container, dom_overlay_container]);
+  AdobeAn.compositionLoaded(lib.properties.id);
   initAnimation();
 }
 
-function handleCloseModal(){
+function handleCloseModal() {
   comp.getStage().seek(0);
   comp.getStage().stop();
   $introModal.removeClass('active');
+  tutorialActive = false;
+  startParticles();
+  isIdle = true;
 }
