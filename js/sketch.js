@@ -6,24 +6,18 @@ Fast Style Transfer Simple Demo
 
 let nets = {};
 let modelNames = ['la_muse', 'rain_princess', 'udnie', 'wreck', 'scream', 'wave', 'mathura', 'fuchun', 'zhangdaqian'];
-let inputImg;
+let inputImg, styleImg;
 let outputImgData;
 let outputImg;
 let modelNum = 0;
 let currentModel = 'wave';
+let uploader;
 let webcam = false;
 let modelReady = false;
 let video;
 let start = false;
 let isLoading = true;
 let isSafa = false;
-let isDrawn = false;
-
-let savedFrame; //will contain video image when pic taken
-
-function handleImageLoaded(el){
-  console.log(el);
-}
 
 function setup() {
   isSafa = isSafari();
@@ -34,6 +28,7 @@ function setup() {
 
   noCanvas();
   inputImg = select('#input-img').elt;
+  styleImg = select('#style-img').elt;
 
   // load models
   modelNames.forEach(n => {
@@ -41,6 +36,8 @@ function setup() {
   });
 
   // Image uploader
+  uploader = select('#uploader').elt;
+  uploader.addEventListener('change', gotNewInputImg);
 
   // output img container
   outputImgContainer = createImg('images/loading.gif', 'image');
@@ -54,22 +51,8 @@ function modelLoaded() {
   modelNum++;
   if (modelNum >= modelNames.length) {
     modelReady = true;
-    outputImgContainer.elt.src = 'images/checkmark.png';  
-    //predictImg(currentModel);
-    document.querySelector('.body-container').classList.add('loaded');
+    predictImg(currentModel);
   }
-}
-
-function predictVideo(modelName) {
-  isLoading = true;
-  if (!modelReady) return;
-  outputImgData = nets[modelName].predict(video.elt);
-  outputImg = ml5.array3DToImage(outputImgData);
-  savedFrame = outputImg;
-  outputImgContainer.elt.src = outputImg.src;
-  isLoading = false;
-  document.querySelector('.body-container').classList.remove('camera');
-  document.querySelector('.body-container').classList.add('stylized');
 }
 
 function predictImg(modelName) {
@@ -86,31 +69,18 @@ function predictImg(modelName) {
 }
 
 function draw() {
-  if (modelReady && webcam && video && video.elt && start && !isDrawn) {
-    isDrawn = true;
-    //predictImg(currentModel);
-    predictVideo(currentModel);
+  if (modelReady && webcam && video && video.elt && start) {
+    predictImg(currentModel);
   }
 }
 
-function updateStyleImg(eleLink) {
-  let ele = eleLink.querySelector('.image');
-  document.querySelectorAll('.imageAnchor').forEach((styleLink,i)=>{
-    if (styleLink.classList.contains('active')){
-      styleLink.classList.remove('active');
-    }
-  });
-  eleLink.classList.add('active');
+function updateStyleImg(ele) {
   if (ele.src) {
+    styleImg.src = ele.src;
     currentModel = ele.id;
   }
-  if (currentModel && webcam) {
-    //predictImg(currentModel);
-    outputImgData = nets[currentModel].predict(savedFrame);
-    outputImg = ml5.array3DToImage(outputImgData);
-    outputImgContainer.elt.src = outputImg.src;
-    isLoading = false;
-    //isDrawn = false;
+  if (currentModel) {
+    predictImg(currentModel);
   }
 }
 
@@ -125,6 +95,15 @@ function uploadImg() {
   deactiveWebcam();
 }
 
+function gotNewInputImg() {
+  if (uploader.files && uploader.files[0]) {
+    let newImgUrl = window.URL.createObjectURL(uploader.files[0]);
+    inputImg.src = newImgUrl;
+    inputImg.style.width = '250px';
+    inputImg.style.height = '250px';
+  }
+}
+
 function useWebcam() {
   if (!video) {
     // webcam video
@@ -135,12 +114,6 @@ function useWebcam() {
   webcam = true;
   select('#input-img').hide();
   outputImgContainer.addClass('reverse-img');
-  //onPredictClick();
-  const isStylized = document.querySelector('.body-container').classList.contains('stylized');
-  if (isStylized){
-    document.querySelector('.body-container').classList.remove('stylized');
-  }
-  document.querySelector('.body-container').classList.add('camera');
 }
 
 function deactiveWebcam() {
@@ -156,8 +129,7 @@ function deactiveWebcam() {
 
 function onPredictClick() {
   if (webcam) start = true;
-  predictVideo(currentModel);
-  //predictImg(currentModel);
+  predictImg(currentModel);
 }
 
 function allowFirefoxGetCamera() {

@@ -15,15 +15,22 @@ let webcam = false;
 let modelReady = false;
 let video;
 let start = false;
-let isLoading = true;
 let isSafa = false;
-let isDrawn = false;
-let videoSize = 500;
+
 let $bodyContainer = $('.register__body_container');
 let $status = $('.register__status');
 let $printButton = $('.register__print_button');
+let hasDownloaded = false;
+
+let frameCount = 0;
+let firstFrame = true;
 
 const OUTRO_DELAY = 3000;
+const USE_REALTIME = true;
+const VIDEO_SIZE = 128;
+const FRAME_SKIP = 10;
+const SHOW_STYLIZED_DELAY = 5000;
+
 
 let savedFrame; //will contain video image when pic taken
 
@@ -33,7 +40,6 @@ const style = urlParams.get('style');
 const registerContent = {
   noSafari: "Sorry we do not yet support your device, please open this page with Chrome on a desktop. We will support other devices in the near future!",
   allowCamera: "Click camera icon below to allow access",
-  loadingStyle: "Loading new style...",
   poseText: "Pose for the camera",
   predictText: "Hold still! This could take a minute",
   savingText: "Saving image to server",
@@ -50,68 +56,56 @@ function setup() {
 
   noCanvas();
   inputImg = select('#input-img').elt;
-
-  // load models
-  // modelNames.forEach(n => {
-  //   nets[n] = new ml5.TransformNet('models/' + n + '/', modelLoaded);
-  // });
-
-  //load model from URL param:
   nets[0] = new ml5.TransformNet('models/' + style + '/', modelLoaded);
-
-  // Image uploader
-
-  // output img container
-  outputImgContainer = createImg('images/loading.gif', 'image'); //TODO - remove this stuff
+  outputImgContainer = createImg('images/loading.gif', 'image'); //has to do this for some reason for p5 to initialize
   outputImgContainer.parent('output-img-container');
 
   allowFirefoxGetCamera();
 }
 
-// A function to be called when the model has been loaded
 function modelLoaded() {
   modelReady = true;
-  outputImgContainer.elt.src = 'images/checkmark.png';
   $bodyContainer.addClass('loaded');
   const hasAllowedCamera = localStorage.getItem("allowedCamera");
-  console.log('allowCamera',hasAllowedCamera);
-  if (!hasAllowedCamera){
+  console.log('allowCamera', hasAllowedCamera);
+  if (!hasAllowedCamera) {
     $status.text(registerContent.allowCamera);
   } else {
     console.log('use webcam');
     useWebcam();
   }
-  
+
 }
 
 function predictVideo(modelName) {
-  isLoading = true;
   if (!modelReady) return;
   outputImgData = nets[0].predict(video.elt);
   outputImg = ml5.array3DToImage(outputImgData);
   savedFrame = outputImg;
+  if (firstFrame){
+    $bodyContainer.addClass('stylized');
+    firstFrame = false;
+  }
   outputImgContainer.elt.src = outputImg.src;
-  $('.register__print_button').attr('href', outputImg.src); //MH
-  isLoading = false;
-  $bodyContainer.removeClass('camera processing').addClass('stylized');
-  $status.text(registerContent.savingText);
-  setTimeout(()=>{
-    handleOutro();
-  },OUTRO_DELAY);
+
 }
 
 
 
-function draw() { //TODO: remove?
-
-  if (modelReady && webcam && video && video.elt && start && !isDrawn) {
-    isDrawn = true;
-    predictVideo(currentModel);
+function draw() {
+  //console.log(modelReady,webcam,video,start,isDrawn);
+  
+  if (modelReady && webcam && video && video.elt && start) {
+    frameCount++;
+    if (frameCount % FRAME_SKIP === 0){ //SKIP every nth frame for performance
+      predictVideo(currentModel);
+    }
+    
   }
 }
 
-function onWebcamClick(){
-  localStorage.setItem("allowedCamera",true);
+function onWebcamClick() {
+  localStorage.setItem("allowedCamera", true);
   useWebcam();
 }
 
@@ -120,24 +114,18 @@ function useWebcam() {
   if (!video) {
     // webcam video
     video = createCapture(VIDEO);
-    video.size(videoSize, videoSize);
+    video.size(VIDEO_SIZE, VIDEO_SIZE);
     video.parent('input-source');
   }
   webcam = true;
   select('#input-img').hide();
   outputImgContainer.addClass('register__reverse_image');
-  const isStylized = $bodyContainer.hasClass('stylized');
-  if (isStylized) {
-    $bodyContainer.removeClass('stylized');
-  }
-  $bodyContainer.addClass('camera');
   $status.text(registerContent.poseText);
+  start = true;
 }
 
 function deactiveWebcam() {
   start = false;
-  select('#input-img').show();
-  outputImgContainer.removeClass('register__reverse_image');
   webcam = false;
   if (video) {
     video.hide();
@@ -145,15 +133,17 @@ function deactiveWebcam() {
   }
 }
 
-function onPredictClick() {
+function onPredictClick() { //use the photo
 
   if (webcam) {
-    $status.text(registerContent.predictText);
-    $bodyContainer.addClass('processing');
-    video.pause();
-    setTimeout(() => { //timeout necessaru tp prevent processing from blocking 
-      predictVideo(currentModel);
-    }, 1000);
+    deactiveWebcam();
+    $('.register__print_button').attr('href', outputImg.src); //MH
+    //isLoading = false;
+    $bodyContainer.removeClass('camera processing').addClass('stylized');
+    $status.text(registerContent.savingText);
+    setTimeout(() => {
+      handleOutro();
+    }, OUTRO_DELAY);
 
   } else {
     console.log('no webcam found');
@@ -176,16 +166,16 @@ function isSafari() {
   }
 }
 
-function onPrintClick() {
-  //handleOutro();
+function handleOutro() {
+  if (!hasDownloaded){ //prevent multiple downloads
+    hasDownloaded = true;
+    $('.register__print_button')[0].click();
+    uploadToCloudStorage();
+  }
+  
 }
 
-function handleOutro(){
-  $('.register__print_button')[0].click();
-  uploadToCloudStorage();
-}
-
-function generateFilename() { 
+function generateFilename() {
   var d = new Date().getTime();
   if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
     d += performance.now(); //use high-precision timer if available
@@ -199,15 +189,15 @@ function generateFilename() {
 
 function dataURLtoBlob(dataurl) {
   var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-  while(n--){
-      u8arr[n] = bstr.charCodeAt(n);
+    bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
   }
-  return new Blob([u8arr], {type:mime});
+  return new Blob([u8arr], { type: mime });
 }
 
 
-function uploadToCloudStorage(){
+function uploadToCloudStorage() {
   //FIREBASE 
 
   const chosenModel = sessionStorage.getItem('chosenModel');
@@ -217,9 +207,9 @@ function uploadToCloudStorage(){
   let userMetadata = {
     "chosenModel": chosenModel ? chosenModel : '',
     "chosenCollective": chosenCollective ? chosenCollective : '',
-    "barcode" : barcode ? barcode : ''
+    "barcode": barcode ? barcode : ''
   }
-  
+
   const metadata = {
     contentType: 'image/png',
     customMetadata: userMetadata,
@@ -229,7 +219,7 @@ function uploadToCloudStorage(){
   filename = generateFilename();
 
   let uploadImage = dataURLtoBlob(outputImg.src);
-  
+
   const uploadTask = storageRef.child(`images/${filename}`).put(uploadImage, metadata); //create a child directory called images, and place the file inside this directory
   uploadTask.on('state_changed', (snapshot) => {
     console.log(snapshot);
@@ -242,10 +232,10 @@ function uploadToCloudStorage(){
     console.log('upload complete');
     goToNextScreen();
   });
-  
+
 }
 
-function goToNextScreen(){
+function goToNextScreen() {
   $bodyContainer.addClass('outro');
   setTimeout(() => {
     window.location = "engage.html"

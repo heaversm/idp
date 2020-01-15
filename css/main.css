@@ -614,16 +614,11 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   display: flex;
 }
 .register__body_container.stylized .register__input_container {
-  display: none;
-}
-.register__body_container.stylized .register__styles_outer {
   display: flex;
 }
 .register__body_container.stylized .register__reverse_image {
-  transform: translateY(-75px) scale(-0.75, 0.75);
-}
-.register__body_container.stylized .register__print_button {
-  display: flex;
+  transform: scale(2);
+  visibility: visible;
 }
 .register__body_container.stylized .register__loader_container {
   display: none;
@@ -724,14 +719,15 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 }
 .register__reverse_image {
   transition: transform 500ms cubic-bezier(0.77, 0, 0.175, 1);
+  visibility: hidden;
 }
 .register__print_container {
-  position: absolute;
-  left: 0;
-  top: 600px;
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transform: translateY(350px);
 }
 .register__spinner_cam_base_container {
   position: absolute;
@@ -803,11 +799,13 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   padding: 5px 15px;
   transition: all ease-in-out 0.5s;
   justify-content: center;
-  display: none;
 }
 .register__photo_button:hover, .register__print_button:hover {
   background-color: #16dcab;
   color: #0a7058;
+}
+.register__photo_button--realtime {
+  display: flex;
 }
 .register__print_button {
   visibility: hidden;
@@ -816,10 +814,6 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   display: none;
   justify-content: center;
 }
-.register__reverse_image {
-  transform: scaleX(-1);
-}
-
 @keyframes anim__bounce {
   0%, 100% {
     transform: scale(0);
