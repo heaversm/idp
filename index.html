@@ -1,11 +1,12 @@
-
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<link rel="stylesheet" href="css/main.css">
-<title>Identity Portal | Expand Your Mind</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="css/main.css">
+  <title>Identity Portal | Expand Your Mind</title>
 </head>
+
 <body id="Home">
   <div id="particles-js" class="home__particles_container"></div>
   <div id="circles" class="home__circles_container"></div>
@@ -13,11 +14,23 @@
     <h1 class="home__title">Identity Portal</h1>
     <p class="home__tagline">Expand Your Mind</p>
     <a class="home__btn_begin button" href="barcode.html">Begin</a>
+    <a class="home__btn_intro">Watch a video on how it works</a>
+  </div>
+
+  <div class="intro__modal_container">
+    <div id="animation_container" class="intro__modal">
+      <canvas id="canvas" class="intro__canvas"></canvas>
+      <div id="dom_overlay_container" class="intro__overlay_container"></div>
+    </div>
   </div>
 
   <script src="js/lib/d3.min.js"></script>
   <script src="js/lib/particles.min.js"></script>
+  <script src="js/lib/jquery-2.1.4.min.js"></script>
+  <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
   <script src="js/home.js"></script>
+  <script src="js/intro.js"></script>
 
 </body>
+
 </html>

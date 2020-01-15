@@ -102,3 +102,60 @@ function collide(node) {
     return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
   };
 }
+
+
+//Intro
+
+const $introModal = $('.intro__modal_container');
+let canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation, comp, lib, ss;
+
+
+$('.home__btn_intro').on('click',onIntroLinkClick);
+$introModal.on('click',handleCloseModal);
+
+$(window).load(()=>{
+  init();
+});
+
+function initAnimation() {
+  stage.addChild(exportRoot);
+  createjs.Ticker.framerate = lib.properties.fps;
+  createjs.Ticker.addEventListener("tick", stage);
+  comp.getStage().seek(0);
+  comp.getStage().stop();
+}	  
+
+function onIntroLinkClick(e){
+  e.preventDefault();
+  $introModal.addClass('active');
+  comp.getStage().play();
+}
+
+function init() {
+	canvas = document.getElementById("canvas");
+	anim_container = document.getElementById("animation_container");
+	dom_overlay_container = document.getElementById("dom_overlay_container");
+	comp=AdobeAn.getComposition("D7D5DE1740A04999B0AB56BA8A4B3927");
+	lib=comp.getLibrary();
+	handleInitComplete({},comp);
+}
+
+function handleInitComplete(evt,comp) {
+	//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
+	lib=comp.getLibrary();
+	ss=comp.getSpriteSheet();
+	exportRoot = new lib.intro2x();
+	stage = new lib.Stage(canvas);	
+	//Registers the "tick" event listener  
+  //Code to support hidpi screens and responsive scaling.
+  //AdobeAn.makeResponsive(true,'both',true,1,[canvas,anim_container,dom_overlay_container]);
+  AdobeAn.makeResponsive(true,'both',false,1,[canvas,anim_container,dom_overlay_container]);
+	AdobeAn.compositionLoaded(lib.properties.id);
+  initAnimation();
+}
+
+function handleCloseModal(){
+  comp.getStage().seek(0);
+  comp.getStage().stop();
+  $introModal.removeClass('active');
+}
