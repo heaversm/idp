@@ -1,3 +1,15 @@
 {
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
+    "colorize.languages": [
+        "css",
+        "sass",
+        "scss",
+        "less",
+        "postcss",
+        "sss",
+        "stylus",
+        "xml",
+        "svg",
+        "javascript"
+    ]
 }
