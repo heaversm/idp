@@ -230,6 +230,11 @@ a.button {
   margin-top: 20px;
 }
 
+.dg .title {
+  font-size: initial;
+  margin: 0;
+}
+
 .select-instance,
 .collectives__register_button {
   color: white;

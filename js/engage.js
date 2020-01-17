@@ -10,7 +10,7 @@ var rings;
 var createdMetaballs = [];
 var assetsIndexToLoad = 0;
 var assetsToLoad = [
-    {path: '../images/', src: 'noise3.png', name: 'noise3', type: 'texture'}
+    {path: 'images/', src: 'noise3.png', name: 'noise3', type: 'texture'}
 ];
 var assets = {};
 
