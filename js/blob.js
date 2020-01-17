@@ -20,14 +20,13 @@ const R = 0.6;
 const G = .28;
 const B = 1.5;
 
-window.addEventListener('load', initBlob, false);
+
 function initBlob() {
-  console.log('init');
   createWorld();
   createGUI();
   createPrimitive();
   animation();
-  addListeners();
+  //addBlobListeners();
 }
 
 var Theme = {
@@ -273,7 +272,7 @@ let moveCoords = {
   endY: 0,
 };
 
-function addListeners() {
+function addBlobListeners() {
   $bgContainer.addEventListener('mousedown', onBGMouseDown);
   $bgContainer.addEventListener('mouseup', onBGMouseUp);
   body.addEventListener('mousemove', ev => mousePos = getMousePos(ev));

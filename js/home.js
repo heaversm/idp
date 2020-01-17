@@ -52,6 +52,7 @@ function init() {
   lib = comp.getLibrary();
   addListeners();
   handleInitComplete({}, comp);
+  initBlob();
 }
 
 function addListeners(){
