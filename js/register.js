@@ -211,7 +211,7 @@ function uploadToCloudStorage() {
   }
 
   const metadata = {
-    contentType: 'image/png',
+    contentType: 'image/jpeg',
     customMetadata: userMetadata,
   };
 
@@ -238,6 +238,6 @@ function uploadToCloudStorage() {
 function goToNextScreen() {
   $bodyContainer.addClass('outro');
   setTimeout(() => {
-    window.location = "engage.html"
+    //window.location = "engage.html"
   }, 1000);
 }
