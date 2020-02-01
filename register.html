@@ -1,14 +1,21 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>Arbitrary Style Transfer in the Browser</title>
   <link rel="stylesheet" href="css/main.css">
-  <title>Identity Portal | Register</title>
+  <!-- Font Awesome -->
+
 </head>
 
 <body id="Register">
-
+  <input type="file" id="file-select" style="display: none" accept="image/x-png,image/gif,image/jpeg" />
+  <!-- As a heading -->
   <div class="bc__container">
     <div class="bc__steps_container">
       <a href="/" class="bc__item home">Home</a>
@@ -18,64 +25,70 @@
       <a class="bc__item end inactive">End</a>
     </div>
   </div>
-
   <div class="register__body_container">
-
     <div class="register__status_text_container">
       <p class="register__status_text">Status: <span class="register__status">Loading Models</span></p>
     </div>
 
-    <div class="register__loader_container">
-      <div class="register__spinner_container">
-        <div class="register__spinner">
-          <div class="register__spinner_dot--1 register__spinner_dot"></div>
-          <div class="register__spinner_dot--2 register__spinner_dot"></div>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="stylize" role="tabpanel" aria-labelledby="stylize-tab">
+        <div class="container">
+          <!--images container-->
+          <div class="images__outer">
+          	<div class="images_container">
+          	  <div class="content_container">
+          	    <img id="content-img" class="centered" src="images/loading.gif" height=256></img>
+          
+          	    <div class="modal fade" id="cam-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          	      aria-hidden="true">
+          	      <div class="modal-dialog modal-lg" role="document">
+          	        <div class="modal-content">
+          	          <div class="modal-body" style="display: none;">
+          	            <video id="webcam-video" class="centered" width="500" height="375"></video>
+          	          </div>
+          	        </div>
+          	      </div>
+          	    </div>
+          	  </div>
+          	  <div class="style_container" style="display: none;">
+          	    <img id="style-img" class="centered" crossorigin="anonymous" src="images/loading.gif" height=256></img>
+          	  </div>
+          	  <div class="output_container">
+          	    <canvas id="stylized" class="centered"></canvas>
+          	  </div>
+          	  <div class="start_container" style="text-align: center; margin-top: 40px;">
+          	    <button disabled id="style-button" type="button" class="style-button">Loading..</button>
+          	  </div>
+          	</div>
+          </div>
+          <!--end images container-->
+
+          <div class="register__print_container">
+            <button class="register__photo_button register__photo_button--realtime process__button">
+              <span>Take photo</span>
+            </button>
+            <a class="register__print_button process__button" download="badge.jpg">
+              <span>Print
+                Badge
+              </span>
+            </a>
+          </div>
+
         </div>
-        <div class="register__spinner_cam_base_container" onclick="onWebcamClick()">
-          <svg class="register__spinner_cam_base" viewBox="0 0 381.7 104.6">
-            <path d="M352.3,100.8c1.6.9,3.2,1.8,4.7,2.6A16.61,16.61,0,0,1,352.3,100.8Z" />
-            <path d="M379.5,77.8a.1.1,0,0,0-.1-.1Z" />
-            <path
-              d="M190.5,67.4c65.9,0,124.5,13.1,161.8,33.4,1.6.9,3.2,1.8,4.7,2.6a17.47,17.47,0,0,0,6.5,1.2,18.2,18.2,0,0,0,18.2-18.2,18,18,0,0,0-2.2-8.6.1.1,0,0,0-.1-.1C361.6,44.5,329,17,288,0a224.31,224.31,0,0,1-97.5,22.2h.7A224.31,224.31,0,0,1,93.7,0C52.6,17,20.1,44.5,2.3,77.7a.1.1,0,0,1-.1.1A18,18,0,0,0,0,86.4a18.2,18.2,0,0,0,18.2,18.2,17.47,17.47,0,0,0,6.5-1.2c1.5-.9,3.1-1.8,4.7-2.6,37.3-20.3,95.9-33.4,161.8-33.4" />
-            </svg>
-        </div>
-      </div>
 
-    </div>
-
-    <div class="register__input_container">
-      <div class="center-container register__input_inner">
-        <img id="input-img" class="register__input_image" src='images/girlwithpearl.jpg' />
-        <div id="input-source" class="register__reverse_image"></div>
       </div>
     </div>
 
-    <div id="output-img-container" class="register__output_container">
-      
-      <div class="register__print_container">
-        <button class="register__photo_button register__photo_button--realtime process__button" onclick="onPredictClick()"><span>Take photo</span></button>
-        <a class="register__print_button process__button" download="badge.jpg">
-          <span>Print
-            Badge
-          </span>
-        </a>
-      </div>
-    </div>
+
+
+    <button type="button" class="btn btn-primary" id="snap-button">Snap!</button>
+
+    <canvas id="hidden-canvas" style="display: none"></canvas>
+
   </div>
 
-  <div class="idle__modal_container">
-    <div class="idle__modal">
-      <div class="idle__modal_content">
-        <p class="idle__modal_message">Need more time?</p>
-        <button class="idle__modal_button">Yes</button>
-      </div>
-    </div>
-  </div>  
-
-
   <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
-  -<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-storage.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-storage.js"></script>
 
   <script>
     var firebaseConfig = {
@@ -90,19 +103,15 @@
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
+    //firebase.analytics();
     const storageService = firebase.storage();
     const storageRef = storageService.ref();
   </script>
 
-  <script src="js/lib/jquery-2.1.4.min.js"></script>
-  <script src="js/lib/jquery.idle.min.js"></script>
-  <script src="js/lib/p5.min.js"></script>
-  <script src="js/lib/p5.dom.min.js"></script>
-  <script src="js/lib/ml5.min.js"></script>
-  <script src="js/idle.js"></script>
-  <script src="js/register.js"></script>
-
+<script src="js/lib/jquery-2.1.4.min.js"></script>
+<script src="js/lib/jquery.idle.min.js"></script>
+<script src="js/bundle.js"></script>
+<script src="js/idle.js"></script>
 </body>
 
 </html>

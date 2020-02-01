@@ -610,9 +610,6 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 .register__body_container.camera .register__input_inner {
   display: flex;
 }
-.register__body_container.camera .register__output_container {
-  display: none;
-}
 .register__body_container.camera .register__photo_button {
   display: flex;
 }
@@ -626,9 +623,6 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   transform: scale(2);
   visibility: visible;
 }
-.register__body_container.stylized .register__loader_container {
-  display: none;
-}
 .register__body_container.loaded.camera .register__spinner_cam_base {
   opacity: 0;
 }
@@ -641,18 +635,19 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 .register__body_container.outro .register__output_container {
   opacity: 0;
 }
-.register__body_container.outro .register__loader_container {
+.register__body_container.outro .register__status_text_container {
+  opacity: 0;
+}
+.register__body_container.outro .images_container {
   display: none;
 }
-.register__body_container.outro .register__status_text_container {
+.register__body_container.outro .register__print_container {
+  display: none !important;
   opacity: 0;
 }
 .register__body_container.processing .process__button {
   width: 50px;
   animation: anim__process 2s infinite cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-.register__body_container.processing .process__button span {
-  display: none;
 }
 .register__status_text_container {
   text-align: center;
@@ -694,7 +689,6 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   z-index: 10;
   width: 100%;
   height: 100%;
-  display: none;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -707,7 +701,6 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   width: 100%;
   display: flex;
   justify-content: center;
-  display: none;
 }
 .register__styles_container {
   width: 1000px;
@@ -725,7 +718,6 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 }
 .register__reverse_image {
   transition: transform 500ms cubic-bezier(0.77, 0, 0.175, 1);
-  visibility: hidden;
 }
 .register__print_container {
   width: 100%;
@@ -733,7 +725,7 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  transform: translateY(350px);
+  transform: translateY(650px);
 }
 .register__spinner_cam_base_container {
   position: absolute;
@@ -783,7 +775,6 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   animation-delay: -1s;
 }
 .register__input_inner {
-  display: none;
   justify-content: center;
 }
 .register__image_anchor {
@@ -813,13 +804,98 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 .register__photo_button--realtime {
   display: flex;
 }
+.register__output_container {
+  justify-content: center;
+}
+.style-button {
+  height: 50px;
+  width: 200px;
+  border-radius: 25px;
+  font-size: 24px;
+  background: #0a7058;
+  color: #ffffff;
+  padding: 5px 15px;
+  transition: all ease-in-out 0.5s;
+  justify-content: center;
+}
+.style-button:hover {
+  background-color: #16dcab;
+  color: #0a7058;
+}
+
+/* NEW STUFF */
+.centered {
+  margin: auto;
+  display: block;
+}
+
+#snap-button {
+  margin-top: 50px;
+  height: 40px;
+  display: none;
+  /* MH temp */
+}
+
+#style-button[disabled] {
+  background-color: red;
+  /*display: none !important;*/
+}
+
+.images_container {
+  position: relative;
+  height: 256px;
+  width: 100%;
+  transition: 500ms opacity linear;
+}
+
+.images__outer {
+  position: absolute;
+  display: flex;
+  width: 100vw;
+  top: 300px;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.content_container,
+.style_container,
+.output_container,
+.start_container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.output_container {
+  z-index: 1;
+}
+
+.content_container {
+  visibility: hidden;
+}
+
+.start_container {
+  z-index: 2;
+}
+
+.select-image {
+  text-align: center;
+}
+
 .register__print_button {
   visibility: hidden;
 }
-.register__output_container {
+
+.register__print_container {
   display: none;
-  justify-content: center;
 }
+
+.register__body_container.stylized .register__print_container {
+  display: flex;
+}
+
 @keyframes anim__bounce {
   0%, 100% {
     transform: scale(0);
