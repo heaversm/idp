@@ -70,6 +70,19 @@
   &__modal {
     position: relative;
   }
+  &__modal_close {
+    position: absolute;
+    z-index: 1;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    border: 0;
+    background-color: black;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
   &__canvas {
     background-color:rgba(41, 243, 145, 1.00);
     width: 100%;

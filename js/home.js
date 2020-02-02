@@ -15,6 +15,7 @@ function startParticles(){
 //Intro
 
 const $introModal = $('.intro__modal_container');
+const $introModalClose = $('.intro__modal_close');
 let canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation, comp, lib, ss;
 
 
@@ -58,6 +59,7 @@ function init() {
 function addListeners(){
   $('.home__btn_intro').on('click', onIntroLinkClick);
   $introModal.on('click', handleCloseModal);
+  $introModalClose.on('click', handleCloseModal);
 }
 
 function handleInitComplete(evt, comp) {

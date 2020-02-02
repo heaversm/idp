@@ -14,16 +14,19 @@ var gui;
 const BG_COLOR = "black";
 const INNER_RAD = 8;
 const THICKNESS = .5;
-const WAVES = 1;
-const HUE = 24.2;
-const R = 0.6;
-const G = .28;
-const B = 1.5;
+const WAVES = 10.1;
+const HUE = 9;
+const R = 0.77;
+const G = .52;
+const B = 1.6;
+const USE_GUI = false;
 
 
 function initBlob() {
   createWorld();
-  createGUI();
+  if (USE_GUI){
+    createGUI();
+  }
   createPrimitive();
   animation();
   //addBlobListeners();
@@ -178,8 +181,8 @@ function createPrimitive() {
 
 var options = {
   perlin: {
-    speed: 0.1,
-    size: 3.5,
+    speed: 0.43,
+    size: 1.9,
     perlins: 1.0,
     decay: 1.20,
     displace: 2.0,

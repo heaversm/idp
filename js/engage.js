@@ -19,7 +19,13 @@ var c2 = '#AEA43A';
 var c3 = '#1F8866';
 var c4 = '#0B1F0E';
 
-
+let curStatusText = 0;
+let statusTimeout;
+const STATUS_DELAY = 2000;
+const STATUS_TEXTS = ['Entwining Destinies','Notifying Collective','Manifesting Pixels','Collect Your Badge!']
+$statusText = $('.engage__title');
+$taglineText = $('.engage__tagline');
+$metaballs = $('#metaball-canvas');
 window.onload = preloadAssets;
 
 function preloadAssets() {
@@ -54,7 +60,42 @@ function preloadAssets() {
     loadAssetIndex(assetsIndexToLoad);
 }
 
+function initStatusText(){
+    runStatus();
+}
+
+function runStatus(){
+    //console.log('init status text');
+    $statusText.removeClass('inactive');
+    $statusText.text(STATUS_TEXTS[curStatusText]);
+    if (curStatusText < STATUS_TEXTS.length -1){
+        statusTimeout = setTimeout(()=>{
+            $statusText.addClass('inactive');
+            setTimeout(()=>{
+                curStatusText++;
+                runStatus();
+            },510);
+        },STATUS_DELAY);
+    } else {
+        doOutro();
+    }
+     
+}
+
+function doOutro(){
+    $taglineText.addClass('inactive');
+    statusTimeout = setTimeout(()=>{
+        $statusText.addClass('inactive');
+        $metaballs.addClass('inactive');
+        setTimeout(()=>{
+            window.location = 'index.html';
+        },510);
+    },STATUS_DELAY);
+}
+
 function initialize(){
+
+    initStatusText();
 
     canvas = document.getElementById('metaball-canvas');
     canvas.width = window.innerWidth;

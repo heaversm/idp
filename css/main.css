@@ -116,6 +116,19 @@ a.button {
 .intro__modal {
   position: relative;
 }
+.intro__modal_close {
+  position: absolute;
+  z-index: 1;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  border: 0;
+  background-color: black;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
 .intro__canvas {
   background-color: #29f391;
   width: 100%;
@@ -192,6 +205,8 @@ a.button {
   height: 480px;
   position: relative;
   margin-top: 20px;
+  border-radius: 20px;
+  overflow: hidden;
 }
 .barcode__viewport {
   transition: opacity 500ms linear;
@@ -725,7 +740,7 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  transform: translateY(650px);
+  transform: translateY(850px);
 }
 .register__spinner_cam_base_container {
   position: absolute;
@@ -968,6 +983,38 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   position: absolute;
   top: 0;
   left: 0;
+  transition: opacity 500ms linear;
+}
+.metaball-canvas.inactive {
+  opacity: 0;
+}
+
+.engage__text_container {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  z-index: 10;
+}
+.engage__tagline {
+  margin-top: 10px;
+  transition: opacity 500ms linear;
+}
+.engage__tagline.inactive {
+  opacity: 0;
+}
+.engage__title {
+  font-size: 48px;
+  margin: 0;
+  transition: all ease-in-out 500ms;
+}
+.engage__title.inactive {
+  transform: translateY(-20px);
+  opacity: 0;
 }
 
 .bc__container {

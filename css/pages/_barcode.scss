@@ -67,6 +67,8 @@
     height: 480px;
     position: relative;
     margin-top: 20px;
+    border-radius: 20px;
+    overflow: hidden;
   }
   &__viewport {
     transition: opacity 500ms linear;

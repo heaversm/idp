@@ -43,8 +43,67 @@ var resultImg = void 0,
 
 var hasEnabledCam = false;
 
+var STYLE_CONFIG = {
+  wave: {
+    id: 'wave',
+    contentSize: 400,
+    styleSize: 256,
+    styleStrength: 1.0
+  },
+  la_muse: {
+    id: 'la_muse',
+    contentSize: 400,
+    styleSize: 256,
+    styleStrength: 1.0
+  },
+  rain_princess: {
+    id: 'rain_princess',
+    contentSize: 400,
+    styleSize: 256,
+    styleStrength: 1.0
+  },
+  udnie: {
+    id: 'udnie',
+    contentSize: 400,
+    styleSize: 256,
+    styleStrength: 1.0
+  },
+  wreck: {
+    id: 'wreck',
+    contentSize: 400,
+    styleSize: 128,
+    styleStrength: 0.1
+  },
+  scream: {
+    id: 'scream',
+    contentSize: 400,
+    styleSize: 256,
+    styleStrength: 1.0
+  },
+  fuchun: {
+    id: 'fuchun',
+    contentSize: 400,
+    styleSize: 256,
+    styleStrength: 1.0
+  },
+  zhangdaqian: {
+    id: 'zhangdaqian',
+    contentSize: 400,
+    styleSize: 256,
+    styleStrength: 1.0
+  },
+  mathura: {
+    id: 'mathura',
+    contentSize: 400,
+    styleSize: 256,
+    styleStrength: 1.0
+  }
+};
+console.log(window.location);
 var urlParams = new URLSearchParams(window.location.search);
+console.log(urlParams);
 var chosenStyle = urlParams.get('style');
+console.log(chosenStyle);
 if (!chosenStyle) {
   chosenStyle = 'udnie';
 }
@@ -56,8 +115,8 @@ var registerContent = {
   allowCamera: "Click button below to begin",
   poseText: "Pose for the camera. Click button when ready",
   predictText: "Hold still! This could take a minute",
-  savingText: "Saving image to server",
-  uploadedText: "Image saved!",
+  savingText: "Merging identities...",
+  uploadedText: "Merged!",
   startText: 'Start'
 };
 
@@ -351,7 +410,12 @@ var Main = function () {
       //this.styleImgSquare = document.getElementById('style-img-square');
       //this.connectImageAndSizeSlider(this.styleImg, this.styleImgSlider, this.styleImgSquare);
 
-      this.styleRatio = 1.0;
+      var thisStyleConfig = STYLE_CONFIG[chosenStyle];
+      console.log(thisStyleConfig);
+
+      this.styleRatio = thisStyleConfig.styleStrength;
+      this.contentImg.height = thisStyleConfig.contentSize;
+      this.styleImg.height = thisStyleConfig.styleSize;
 
       /*
       this.styleRatioSlider = document.getElementById('stylized-img-ratio');
@@ -635,7 +699,7 @@ var Main = function () {
     value: function goToNextScreen() {
       $bodyContainer.addClass('outro');
       setTimeout(function () {
-        //window.location = "engage.html"
+        window.location = "engage.html";
       }, 1000);
     }
   }, {
@@ -721,162 +785,66 @@ var Main = function () {
         }
       }, null, this);
     }
-  }, {
-    key: 'benchmark',
-    value: function benchmark() {
-      var x, bottleneck, styleNet, time, transformNet;
-      return regeneratorRuntime.async(function benchmark$(_context6) {
-        while (1) {
-          switch (_context6.prev = _context6.next) {
-            case 0:
-              x = tf.randomNormal([1, 256, 256, 3]);
-              bottleneck = tf.randomNormal([1, 1, 1, 100]);
-              _context6.next = 4;
-              return regeneratorRuntime.awrap(this.loadInceptionStyleModel());
 
-            case 4:
-              styleNet = _context6.sent;
-              _context6.next = 7;
-              return regeneratorRuntime.awrap(this.benchmarkStyle(x, styleNet));
-
-            case 7:
-              time = _context6.sent;
-
-              styleNet.dispose();
-
-              _context6.next = 11;
-              return regeneratorRuntime.awrap(this.loadMobileNetStyleModel());
-
-            case 11:
-              styleNet = _context6.sent;
-              _context6.next = 14;
-              return regeneratorRuntime.awrap(this.benchmarkStyle(x, styleNet));
-
-            case 14:
-              time = _context6.sent;
-
-              styleNet.dispose();
-
-              _context6.next = 18;
-              return regeneratorRuntime.awrap(this.loadOriginalTransformerModel());
-
-            case 18:
-              transformNet = _context6.sent;
-              _context6.next = 21;
-              return regeneratorRuntime.awrap(this.benchmarkTransform(x, bottleneck, transformNet));
-
-            case 21:
-              time = _context6.sent;
-
-              transformNet.dispose();
-
-              _context6.next = 25;
-              return regeneratorRuntime.awrap(this.loadSeparableTransformerModel());
-
-            case 25:
-              transformNet = _context6.sent;
-              _context6.next = 28;
-              return regeneratorRuntime.awrap(this.benchmarkTransform(x, bottleneck, transformNet));
-
-            case 28:
-              time = _context6.sent;
-
-              transformNet.dispose();
-
-              x.dispose();
-              bottleneck.dispose();
-
-            case 32:
-            case 'end':
-              return _context6.stop();
-          }
-        }
-      }, null, this);
+    /*
+     async benchmark() {
+      const x = tf.randomNormal([1, 256, 256, 3]);
+      const bottleneck = tf.randomNormal([1, 1, 1, 100]);
+       let styleNet = await this.loadInceptionStyleModel();
+      let time = await this.benchmarkStyle(x, styleNet);
+      styleNet.dispose();
+       styleNet = await this.loadMobileNetStyleModel();
+      time = await this.benchmarkStyle(x, styleNet);
+      styleNet.dispose();
+       let transformNet = await this.loadOriginalTransformerModel();
+      time = await this.benchmarkTransform(
+        x, bottleneck, transformNet);
+      transformNet.dispose();
+       transformNet = await this.loadSeparableTransformerModel();
+      time = await this.benchmarkTransform(
+        x, bottleneck, transformNet);
+      transformNet.dispose();
+       x.dispose();
+      bottleneck.dispose();
     }
-  }, {
-    key: 'benchmarkStyle',
-    value: function benchmarkStyle(x, styleNet) {
-      var profile, time;
-      return regeneratorRuntime.async(function benchmarkStyle$(_context7) {
-        while (1) {
-          switch (_context7.prev = _context7.next) {
-            case 0:
-              _context7.next = 2;
-              return regeneratorRuntime.awrap(tf.profile(function () {
-                tf.tidy(function () {
-                  var dummyOut = styleNet.predict(x);
-                  dummyOut.print();
-                });
-              }));
-
-            case 2:
-              profile = _context7.sent;
-
-              console.log(profile);
-              _context7.next = 6;
-              return regeneratorRuntime.awrap(tf.time(function () {
-                tf.tidy(function () {
-                  for (var i = 0; i < 10; i++) {
-                    var y = styleNet.predict(x);
-                    y.print();
-                  }
-                });
-              }));
-
-            case 6:
-              time = _context7.sent;
-
-              console.log(time);
-
-            case 8:
-            case 'end':
-              return _context7.stop();
+     async benchmarkStyle(x, styleNet) {
+      const profile = await tf.profile(() => {
+        tf.tidy(() => {
+          const dummyOut = styleNet.predict(x);
+          dummyOut.print();
+        });
+      });
+      console.log(profile);
+      const time = await tf.time(() => {
+        tf.tidy(() => {
+          for (let i = 0; i < 10; i++) {
+            const y = styleNet.predict(x);
+            y.print();
           }
-        }
-      }, null, this);
+        })
+      });
+      console.log(time);
     }
-  }, {
-    key: 'benchmarkTransform',
-    value: function benchmarkTransform(x, bottleneck, transformNet) {
-      var profile, time;
-      return regeneratorRuntime.async(function benchmarkTransform$(_context8) {
-        while (1) {
-          switch (_context8.prev = _context8.next) {
-            case 0:
-              _context8.next = 2;
-              return regeneratorRuntime.awrap(tf.profile(function () {
-                tf.tidy(function () {
-                  var dummyOut = transformNet.predict([x, bottleneck]);
-                  dummyOut.print();
-                });
-              }));
-
-            case 2:
-              profile = _context8.sent;
-
-              console.log(profile);
-              _context8.next = 6;
-              return regeneratorRuntime.awrap(tf.time(function () {
-                tf.tidy(function () {
-                  for (var i = 0; i < 10; i++) {
-                    var y = transformNet.predict([x, bottleneck]);
-                    y.print();
-                  }
-                });
-              }));
-
-            case 6:
-              time = _context8.sent;
-
-              console.log(time);
-
-            case 8:
-            case 'end':
-              return _context8.stop();
+     async benchmarkTransform(x, bottleneck, transformNet) {
+      const profile = await tf.profile(() => {
+        tf.tidy(() => {
+          const dummyOut = transformNet.predict([x, bottleneck]);
+          dummyOut.print();
+        });
+      });
+      console.log(profile);
+      const time = await tf.time(() => {
+        tf.tidy(() => {
+          for (let i = 0; i < 10; i++) {
+            const y = transformNet.predict([x, bottleneck]);
+            y.print();
           }
-        }
-      }, null, this);
+        })
+      });
+      console.log(time);
     }
+    */
+
   }]);
 
   return Main;

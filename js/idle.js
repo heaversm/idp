@@ -1,8 +1,8 @@
 //https://github.com/kidh0/jquery.idle
 
-const IDLE_TIME = 30000; //ms
+const IDLE_TIME = 300000; //ms
 const REDIRECT_TIME = 5000; //ms - time since displaying idle warning before redirecting to start
-const USE_IDLE = false;
+const USE_IDLE = true;
 
 let redirectTimeout = null;
 
@@ -10,7 +10,7 @@ function handleIdle(){
   console.log('idle');
   $('.idle__modal_container').addClass('active');
   redirectTimeout = setTimeout((w)=>{
-    window.location = '/'
+    window.location = 'index.html'
   },REDIRECT_TIME);
 }
 
