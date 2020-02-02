@@ -1,6 +1,24 @@
 $(function () {
 
   var recognizedCode; //holds the scanned barcode
+  const NEXT_SCREEN_URL = 'collectives.html';
+
+  var ambientSound = new Howl({
+    src: ['audio/ambient2.mp3'],
+    autoplay: true,
+    loop: true,
+    volume: 0.1,
+  });
+
+  var soundScanned = new Howl({
+    src: ['audio/scanned.mp3'],
+    volume: 0.5,
+    autoplay: false,
+    onend: function() {
+      window.location = NEXT_SCREEN_URL
+    }
+  });
+
 
   var resultCollector = Quagga.ResultCollector.create({
     capture: true,
@@ -183,9 +201,7 @@ $(function () {
       setTimeout(()=>{
         Quagga.stop();
         $('body').addClass('done');
-        setTimeout(()=>{
-          window.location="collectives.html"
-        },500);
+        soundScanned.play();
         
       },2000);
     }

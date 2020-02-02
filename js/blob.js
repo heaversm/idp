@@ -21,6 +21,24 @@ const G = .52;
 const B = 1.6;
 const USE_GUI = false;
 
+var options = {
+  perlin: {
+    speed: 0.43,
+    size: 3,
+    perlins: 1.0,
+    decay: 1.20,
+    displace: 2.0,
+    complex: 0.10,
+    waves: WAVES,
+    eqcolor: HUE,
+    rcolor: R,
+    gcolor: G,
+    bcolor: B,
+    fragment: true,
+    redhell: true
+  }
+}
+
 
 function initBlob() {
   createWorld();
@@ -179,23 +197,7 @@ function createPrimitive() {
   _primitive = new primitiveElement();
 }
 
-var options = {
-  perlin: {
-    speed: 0.43,
-    size: 1.9,
-    perlins: 1.0,
-    decay: 1.20,
-    displace: 2.0,
-    complex: 0.10,
-    waves: WAVES,
-    eqcolor: HUE,
-    rcolor: R,
-    gcolor: G,
-    bcolor: B,
-    fragment: true,
-    redhell: true
-  }
-}
+
 
 function createGUI() {
   gui = new dat.GUI();

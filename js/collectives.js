@@ -1,5 +1,32 @@
 window.onload = function () {
 
+    var ambientSound = new Howl({
+        src: ['audio/ambient3.mp3'],
+        autoplay: true,
+        loop: true,
+        volume: 0.1,
+    });
+
+    var navigateSound1 = new Howl({
+        src: ['audio/button4.mp3'],
+    });
+
+    var navigateSound2 = new Howl({
+        src: ['audio/button5.mp3'],
+    });
+
+    var navigateSound3 = new Howl({
+        src: ['audio/button6.mp3'],
+        volume: 0.25,
+    });
+
+    var collectiveChosenSound = new Howl({
+        src: ['audio/collectiveChosen.mp3'],
+        onend: function(){
+            storeSelections(); //go to final step
+        }
+    });
+
     var button = document.getElementById('cn-button'),
         wrapper = document.getElementById('cn-wrapper'),
         overlay = document.getElementById('cn-overlay');
@@ -44,6 +71,7 @@ window.onload = function () {
         $thisArrow = $(this);
         var isLeft = $thisArrow.hasClass('left');
         if (isLeft) {
+            navigateSound1.play();
             if (curIndex > 0) {
                 curIndex--;
             } else {
@@ -51,6 +79,7 @@ window.onload = function () {
             }
             rotateAmt += 40;
         } else {
+            navigateSound2.play();
             if (curIndex < totalIndex) {
                 curIndex++;
             } else {
@@ -64,6 +93,7 @@ window.onload = function () {
     }
 
     function onPetalClick() {
+        navigateSound3.play();
         const eleLink = $(this)[0];
         let ele = eleLink.querySelector('.collectives__petal_image');
         if (ele.src) {
@@ -84,9 +114,7 @@ window.onload = function () {
         e.stopPropagation();
         $contentWrapper.removeClass('active');
         closeNav();
-        setTimeout(() => {
-            storeSelections();
-        }, 1500);
+        collectiveChosenSound.play();
     }
 
     function cnhandle(e) {

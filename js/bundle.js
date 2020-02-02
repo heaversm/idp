@@ -43,75 +43,33 @@ var resultImg = void 0,
 
 var hasEnabledCam = false;
 
-var STYLE_CONFIG = {
-  wave: {
-    id: 'wave',
-    contentSize: 400,
-    styleSize: 256,
-    styleStrength: 1.0
-  },
-  la_muse: {
-    id: 'la_muse',
-    contentSize: 400,
-    styleSize: 256,
-    styleStrength: 1.0
-  },
-  rain_princess: {
-    id: 'rain_princess',
-    contentSize: 400,
-    styleSize: 256,
-    styleStrength: 1.0
-  },
-  udnie: {
-    id: 'udnie',
-    contentSize: 400,
-    styleSize: 256,
-    styleStrength: 1.0
-  },
-  wreck: {
-    id: 'wreck',
-    contentSize: 400,
-    styleSize: 128,
-    styleStrength: 0.1
-  },
-  scream: {
-    id: 'scream',
-    contentSize: 400,
-    styleSize: 256,
-    styleStrength: 1.0
-  },
-  fuchun: {
-    id: 'fuchun',
-    contentSize: 400,
-    styleSize: 256,
-    styleStrength: 1.0
-  },
-  zhangdaqian: {
-    id: 'zhangdaqian',
-    contentSize: 400,
-    styleSize: 256,
-    styleStrength: 1.0
-  },
-  mathura: {
-    id: 'mathura',
-    contentSize: 400,
-    styleSize: 256,
-    styleStrength: 1.0
-  }
-};
-console.log(window.location);
+var ambientSound = new Howl({
+  src: ['audio/ambient5.mp3'],
+  autoplay: true,
+  loop: true,
+  volume: 0.1
+});
+
+var beginSound = new Howl({
+  src: ['audio/button2.mp3']
+});
+
+var printBadgeSound = new Howl({
+  src: ['audio/cameracapture.mp3']
+});
+
 var urlParams = new URLSearchParams(window.location.search);
-console.log(urlParams);
 var chosenStyle = urlParams.get('style');
 console.log(chosenStyle);
 if (!chosenStyle) {
-  chosenStyle = 'udnie';
+  chosenStyle = 'style1';
 }
 
 var $bodyContainer = $('.register__body_container');
 var outputDataURL = void 0;
 
 var registerContent = {
+  loadingModelsText: "Loading models...",
   allowCamera: "Click button below to begin",
   poseText: "Pose for the camera. Click button when ready",
   predictText: "Hold still! This could take a minute",
@@ -199,7 +157,11 @@ var Main = function () {
       if (!hasEnabledCam) {
         $statusText.text(registerContent.allowCamera);
       } else {
-        $statusText.text(registerContent.poseText);
+        setTimeout(function () {
+          $statusText.text(registerContent.poseText);
+          $bodyContainer.addClass('stylized');
+        }, 2000);
+        //$statusText.text(registerContent.poseText);
       }
     }
   }, {
@@ -361,6 +323,8 @@ var Main = function () {
   }, {
     key: 'setupCamImage',
     value: function setupCamImage() {
+      $('.output_container').addClass('active');
+      //$bodyContainer.addClass('stylized');
       hiddenCanvas = document.getElementById('hidden-canvas');
       hiddenContext = hiddenCanvas.getContext('2d');
       hiddenCanvas.width = this.webcamVideoElement.width;
@@ -429,6 +393,11 @@ var Main = function () {
       // Initialize buttons
       this.styleButton = document.getElementById('style-button');
       this.styleButton.onclick = function () {
+        beginSound.play();
+        setTimeout(function () {
+          $statusText.text(registerContent.poseText);
+          $bodyContainer.addClass('stylized');
+        }, 2000);
         _this4.addPhotoButtonListener();
         _this4.handleBeginStyling();
       };
@@ -449,10 +418,9 @@ var Main = function () {
     key: 'handleBeginStyling',
     value: function handleBeginStyling() {
       if (!hasEnabledCam) {
-        $statusText.text(registerContent.poseText);
+        //$statusText.text(registerContent.poseText);
         sessionStorage.setItem('allowCam', true);
         $(this.styleButton).hide();
-        $bodyContainer.addClass('stylized');
         this.handleStylize();
         this.enableStylizeButtons();
       }
@@ -569,7 +537,7 @@ var Main = function () {
   }, {
     key: 'handleUserInitiatedStyleTransfer',
     value: function handleUserInitiatedStyleTransfer() {
-      $bodyContainer.addClass('stylized');
+      //$bodyContainer.addClass('stylized');
       this.addPhotoButtonListener();
     }
   }, {
@@ -596,17 +564,21 @@ var Main = function () {
       var _this9 = this;
 
       //use the photo
+      $('.output_container').removeClass('active');
+      styleEnabled = false;
       console.log('click');
       //if (hasEnabledCam) {
       //this.stylizedContext = this.stylized.getContext('2d');
       outputDataURL = this.stylized.toDataURL('image/jpg');
       //this.contentImg.src = imageDataURL;
       //deactiveWebcam(); //TODO
-      this.stopCam();
+      //this.stopCam();
       $('.register__print_button').attr('href', outputDataURL); //MH
       //isLoading = false;
       $bodyContainer.addClass('predicting');
+      this.stopCam();
       $statusText.text(registerContent.savingText);
+      printBadgeSound.play();
       setTimeout(function () {
         _this9.handleOutro();
       }, OUTRO_DELAY);
@@ -619,7 +591,8 @@ var Main = function () {
         //prevent multiple downloads
         hasDownloaded = true;
         $('.register__print_button')[0].click();
-        this.stopCam();
+
+        //this.stopCam();
         this.uploadToCloudStorage();
       }
     }

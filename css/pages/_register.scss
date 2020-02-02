@@ -1,6 +1,7 @@
 $videoScale: 2;
 $printTranslate: 850px;
 $imagesTop: 300px;
+$camHeight: 400px;
 
 .register {
   &__body_container {
@@ -11,6 +12,10 @@ $imagesTop: 300px;
     height: 100vh;
     overflow: hidden;
     z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     &.loaded {
       .register__spinner_dot--1 {
         animation: anim__loader--cam1 2s forwards;
@@ -91,11 +96,12 @@ $imagesTop: 300px;
   }
   &__status_text_container {
     text-align: center;
-    padding-top: 100px;
-    position: absolute;
-    left: 0;
-    top: 0;
+    //padding-top: 100px;
+    //position: absolute;
+    //left: 0;
+    //top: 0;
     width: 100%;
+    margin-bottom: 40px;
     transition: opacity 1000ms linear;
   }
   &__status_text {
@@ -169,7 +175,8 @@ $imagesTop: 300px;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    transform: translateY($printTranslate);
+    margin-top: 40px;
+    //transform: translateY($printTranslate);
   }
   &__spinner_cam_base_container {
     position: absolute;
@@ -257,6 +264,10 @@ $imagesTop: 300px;
   &__output_container {
     //display: none; //MH temp disable
     justify-content: center;
+    opacity: 0;
+    &.active {
+      opacity: 1;
+    }
   }
   &__reverse_image {
     //transform: scaleX(-1);
@@ -300,21 +311,21 @@ $imagesTop: 300px;
 }
 
 .images_container {
-  position: relative;
-  height: 256px;
-  width: 100%;
+  // position: relative;
+  // height: 256px;
+  // width: 100%;
   transition: 500ms opacity linear;
 }
 
 .images__outer {
-  position: absolute;
-  display: flex;
-  width: 100vw;
-  //height: 100vh;
-  top: $imagesTop;
-  left: 0;
-  justify-content: center;
-  align-items: center;
+  // position: absolute;
+  // display: flex;
+  // width: 100vw;
+  // //height: 100vh;
+  // top: $imagesTop;
+  // left: 0;
+  // justify-content: center;
+  // align-items: center;
 }
 
 .content_container,
@@ -353,6 +364,12 @@ $imagesTop: 300px;
 
 .register__body_container.stylized .register__print_container {
   display: flex;
+}
+
+.tab-pane {
+  position: relative;
+  width: 100vw;
+  height: $camHeight;
 }
 
 @keyframes anim__bounce {

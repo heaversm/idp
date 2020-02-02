@@ -28,6 +28,21 @@ $taglineText = $('.engage__tagline');
 $metaballs = $('#metaball-canvas');
 window.onload = preloadAssets;
 
+var ambientSound = new Howl({
+    src: ['audio/ambient4.mp3'],
+    autoplay: true,
+    loop: true,
+    volume: 0.1,
+});
+
+var badgePrintSound = new Howl({
+    src: ['audio/badge_printed.mp3'],
+    volume: .25,
+    onend: function(){
+        window.location = 'index.html';
+    }
+})
+
 function preloadAssets() {
 
 
@@ -83,13 +98,12 @@ function runStatus(){
 }
 
 function doOutro(){
+    ambientSound.stop();
+    badgePrintSound.play();
     $taglineText.addClass('inactive');
     statusTimeout = setTimeout(()=>{
         $statusText.addClass('inactive');
         $metaballs.addClass('inactive');
-        setTimeout(()=>{
-            window.location = 'index.html';
-        },510);
     },STATUS_DELAY);
 }
 

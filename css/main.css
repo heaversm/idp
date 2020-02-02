@@ -48,6 +48,14 @@ a.button {
   align-items: center;
 }
 
+#Home.out .bg_container, #Home.out .home__text_container, #Home.out .home__particles_container {
+  opacity: 0;
+}
+
+.bg_container, .home__text_container, .home__particles_container {
+  transition: opacity 1000ms linear;
+}
+
 .home__particles_container, .home__circles_container {
   position: absolute;
   top: 0;
@@ -115,6 +123,8 @@ a.button {
 }
 .intro__modal {
   position: relative;
+  width: 80% !important;
+  height: auto !important;
 }
 .intro__modal_close {
   position: absolute;
@@ -131,8 +141,8 @@ a.button {
 }
 .intro__canvas {
   background-color: #29f391;
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: auto !important;
 }
 .intro__overlay_container {
   pointer-events: none;
@@ -240,8 +250,8 @@ a.button {
 }
 
 .title {
-  font-size: 50px;
-  margin-bottom: 40px;
+  font-size: 40px;
+  margin-bottom: 20px;
   margin-top: 20px;
 }
 
@@ -287,8 +297,8 @@ a.button {
   align-items: center;
   width: 100%;
   margin: 0 auto;
-  padding-left: 25px;
-  padding-right: 25px;
+  padding-left: 100px;
+  padding-right: 100px;
   height: 100%;
   position: absolute;
   top: 0;
@@ -319,7 +329,7 @@ a.button {
   transform: rotate(180deg);
 }
 .arrow svg {
-  width: 40px;
+  width: 20px;
 }
 
 .arrow.active {
@@ -331,10 +341,10 @@ a.button {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  font-size: 0.8em;
 }
 
 .cn-wrapper {
-  font-size: 1em;
   width: 50em;
   height: 50em;
   overflow: hidden;
@@ -612,6 +622,10 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   height: 100vh;
   overflow: hidden;
   z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 .register__body_container.loaded .register__spinner_dot--1 {
   animation: anim__loader--cam1 2s forwards;
@@ -666,11 +680,8 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 }
 .register__status_text_container {
   text-align: center;
-  padding-top: 100px;
-  position: absolute;
-  left: 0;
-  top: 0;
   width: 100%;
+  margin-bottom: 40px;
   transition: opacity 1000ms linear;
 }
 .register__status_text {
@@ -740,7 +751,7 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  transform: translateY(850px);
+  margin-top: 40px;
 }
 .register__spinner_cam_base_container {
   position: absolute;
@@ -821,6 +832,10 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 }
 .register__output_container {
   justify-content: center;
+  opacity: 0;
+}
+.register__output_container.active {
+  opacity: 1;
 }
 .style-button {
   height: 50px;
@@ -857,20 +872,7 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 }
 
 .images_container {
-  position: relative;
-  height: 256px;
-  width: 100%;
   transition: 500ms opacity linear;
-}
-
-.images__outer {
-  position: absolute;
-  display: flex;
-  width: 100vw;
-  top: 300px;
-  left: 0;
-  justify-content: center;
-  align-items: center;
 }
 
 .content_container,
@@ -909,6 +911,12 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 
 .register__body_container.stylized .register__print_container {
   display: flex;
+}
+
+.tab-pane {
+  position: relative;
+  width: 100vw;
+  height: 400px;
 }
 
 @keyframes anim__bounce {

@@ -1,3 +1,12 @@
+#Home.out {
+  .bg_container, .home__text_container, .home__particles_container {
+    opacity: 0;
+  }
+
+}
+.bg_container, .home__text_container, .home__particles_container {
+  transition: opacity 1000ms linear;
+}
 .home {
   &__particles_container, &__circles_container {
     position: absolute;
@@ -69,6 +78,8 @@
   }
   &__modal {
     position: relative;
+    width: 80% !important;
+    height: auto !important;
   }
   &__modal_close {
     position: absolute;
@@ -85,8 +96,8 @@
   }
   &__canvas {
     background-color:rgba(41, 243, 145, 1.00);
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: auto !important;
   }
   &__overlay_container {
     pointer-events:none; overflow:hidden; width:800px; height:600px; position: absolute; left: 0px; top: 0px; display: block;
