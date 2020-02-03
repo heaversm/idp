@@ -3,6 +3,10 @@ $printTranslate: 850px;
 $imagesTop: 300px;
 $camHeight: 400px;
 
+#stylized {
+  transform: scale(3);
+}
+
 .register {
   &__body_container {
     position: absolute;

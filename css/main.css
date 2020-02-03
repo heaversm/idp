@@ -614,6 +614,10 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
   opacity: 1;
 }
 
+#stylized {
+  transform: scale(3);
+}
+
 .register__body_container {
   position: absolute;
   top: 0;
