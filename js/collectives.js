@@ -4,7 +4,7 @@ window.onload = function () {
         src: ['audio/ambient3.mp3'],
         autoplay: true,
         loop: true,
-        volume: 0.1,
+        volume: 0.3,
     });
 
     var navigateSound1 = new Howl({

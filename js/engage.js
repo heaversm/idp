@@ -32,7 +32,7 @@ var ambientSound = new Howl({
     src: ['audio/ambient4.mp3'],
     autoplay: true,
     loop: true,
-    volume: 0.1,
+    volume: 0.3,
 });
 
 var badgePrintSound = new Howl({

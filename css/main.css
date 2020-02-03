@@ -915,7 +915,7 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 
 .tab-pane {
   position: relative;
-  width: 100vw;
+  width: 536px;
   height: 400px;
 }
 

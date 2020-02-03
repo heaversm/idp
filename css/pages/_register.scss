@@ -2,6 +2,7 @@ $videoScale: 2;
 $printTranslate: 850px;
 $imagesTop: 300px;
 $camHeight: 400px;
+$camWidth: 536px;
 
 .register {
   &__body_container {
@@ -369,7 +370,7 @@ $camHeight: 400px;
 
 .tab-pane {
   position: relative;
-  width: 100vw;
+  width: $camWidth;
   height: $camHeight;
 }
 
