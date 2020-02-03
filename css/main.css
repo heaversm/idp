@@ -685,6 +685,7 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 .register__status_text_container {
   text-align: center;
   width: 100%;
+  transform: translateY(-100px);
   margin-bottom: 40px;
   transition: opacity 1000ms linear;
 }
