@@ -53,7 +53,7 @@
 
 .arrows__container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   width: 100%;
   margin: 0 auto;
@@ -61,7 +61,7 @@
   padding-right: 100px;
   height: 100%;
   position: absolute;
-  top: 0;
+  top: -350px;
   left: 0;
 }
 
