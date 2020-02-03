@@ -6,7 +6,7 @@ var ambientSound = new Howl({
   src: ['audio/ambient1.mp3'],
   autoplay: true,
   loop: true,
-  volume: 0.1,
+  volume: 0.3,
 });
 
 var button1Sound = new Howl({
