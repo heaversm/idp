@@ -1,4 +1,4 @@
-const CONTENT_SIZE = 200;
+const CONTENT_SIZE = 400;
 const STYLE_CONFIG = {
   style1: {
     id: 'style1',

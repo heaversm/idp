@@ -2,10 +2,11 @@ $videoScale: 2;
 $printTranslate: 850px;
 $imagesTop: 300px;
 $camHeight: 400px;
-
+/*
 #stylized {
   transform: scale(2);
 }
+*/
 
 .register {
   &__body_container {
@@ -105,7 +106,7 @@ $camHeight: 400px;
     //left: 0;
     //top: 0;
     width: 100%;
-    transform: translateY(-100px);
+    //transform: translateY(-100px);
     margin-bottom: 40px;
     transition: opacity 1000ms linear;
   }
