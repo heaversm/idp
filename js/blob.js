@@ -24,7 +24,7 @@ const USE_GUI = false;
 var options = {
   perlin: {
     speed: 0.43,
-    size: 3,
+    size: 1.9,
     perlins: 1.0,
     decay: 1.20,
     displace: 2.0,
