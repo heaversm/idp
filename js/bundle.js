@@ -69,13 +69,13 @@ var $bodyContainer = $('.register__body_container');
 var outputDataURL = void 0;
 
 var registerContent = {
-  loadingModelsText: "Loading models...",
+  loadingModelsText: "Hold on a second. (You look great!)",
   allowCamera: "Click button below to begin",
-  poseText: "Pose for the camera. Click button when ready",
+  poseText: "Behold the new you! When you're ready, take a photo for the registTree.",
   predictText: "Hold still! This could take a minute",
-  savingText: "Merging identities...",
-  uploadedText: "Merged!",
-  startText: 'Start'
+  savingText: "Creating your new identity...",
+  uploadedText: "Welcome to the family! We're making your badge now.",
+  startText: 'Let\'s go'
 };
 
 var OUTRO_DELAY = 3000;
