@@ -476,7 +476,7 @@ var Main = function () {
         _this6.draw(timestamp);
       });
       if (styleEnabled) {
-        //this.renderCamImage();
+        this.renderCamImage();
         this.startStyling().finally(function () {
           styleEnabled = true;
         });
