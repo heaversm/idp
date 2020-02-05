@@ -53,7 +53,7 @@ window.onload = function () {
     $('.select-instance').on('click', onInstanceClick);
 
 
-    let currentModel = "wave";
+    let currentModel = "style1";
     let chosenCollective = null;
 
 

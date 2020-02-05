@@ -79,6 +79,7 @@ var registerContent = {
 };
 
 var OUTRO_DELAY = 3000;
+var TAKE_PHOTO_TIMEOUT = 4000; //time to wait before taking photo
 var hasDownloaded = false;
 var $statusText = $('.register__status');
 
@@ -132,21 +133,34 @@ var Main = function () {
     this.initalizeWebcamVariables();
     this.initializeStyleTransfer();
 
-    Promise.all([this.loadMobileNetStyleModel(), //LOW RES
-    this.loadSeparableTransformerModel()]
-    //this.loadInceptionStyleModel(), //HI RES
-    //this.loadOriginalTransformerModel(),
-    ).then(function (_ref) {
-      var _ref2 = _slicedToArray(_ref, 2),
-          styleNet = _ref2[0],
-          transformNet = _ref2[1];
+    if (DO_HIRES) {
+      //Make sure if you change anything within here, you change it in the else conditional as well
+      Promise.all([this.loadInceptionStyleModel(), //HI RES
+      this.loadOriginalTransformerModel()]).then(function (_ref) {
+        var _ref2 = _slicedToArray(_ref, 2),
+            styleNet = _ref2[0],
+            transformNet = _ref2[1];
 
-      //this.hideLoader();
-      _this.styleNet = styleNet;
-      _this.transformNet = transformNet;
-      _this.handleAllModelsLoaded();
-      _this.enableStylizeButtons();
-    });
+        //this.hideLoader();
+        _this.styleNet = styleNet;
+        _this.transformNet = transformNet;
+        _this.handleAllModelsLoaded();
+        _this.enableStylizeButtons();
+      });
+    } else {
+      Promise.all([this.loadMobileNetStyleModel(), //LOW RES
+      this.loadSeparableTransformerModel()]).then(function (_ref3) {
+        var _ref4 = _slicedToArray(_ref3, 2),
+            styleNet = _ref4[0],
+            transformNet = _ref4[1];
+
+        //this.hideLoader();
+        _this.styleNet = styleNet;
+        _this.transformNet = transformNet;
+        _this.handleAllModelsLoaded();
+        _this.enableStylizeButtons();
+      });
+    }
   }
 
   _createClass(Main, [{
@@ -462,7 +476,7 @@ var Main = function () {
         _this6.draw(timestamp);
       });
       if (styleEnabled) {
-        this.renderCamImage();
+        //this.renderCamImage();
         this.startStyling().finally(function () {
           styleEnabled = true;
         });
@@ -559,29 +573,46 @@ var Main = function () {
       $(this.styleButton).hide();
     }
   }, {
+    key: 'displayPhotoTimeout',
+    value: function displayPhotoTimeout() {
+      var photoCount = 3;
+      $statusText.text(photoCount + '...');
+      window.photoCountdownInterval = setInterval(function () {
+        photoCount--;
+        $statusText.text(photoCount + '...');
+        if (photoCount === 1) {
+          clearInterval(window.photoCountdownInterval);
+          window.photoCountdownInterval = null;
+        }
+      }, 1000);
+    }
+  }, {
     key: 'onPredictClick',
     value: function onPredictClick() {
       var _this9 = this;
 
       //use the photo
-      $('.output_container').removeClass('active');
-      styleEnabled = false;
-      console.log('click');
-      //if (hasEnabledCam) {
-      //this.stylizedContext = this.stylized.getContext('2d');
-      outputDataURL = this.stylized.toDataURL('image/jpg');
-      //this.contentImg.src = imageDataURL;
-      //deactiveWebcam(); //TODO
-      //this.stopCam();
-      $('.register__print_button').attr('href', outputDataURL); //MH
-      //isLoading = false;
-      $bodyContainer.addClass('predicting');
-      this.stopCam();
-      $statusText.text(registerContent.savingText);
-      printBadgeSound.play();
+      this.displayPhotoTimeout();
       setTimeout(function () {
-        _this9.handleOutro();
-      }, OUTRO_DELAY);
+        $('.output_container').removeClass('active');
+        styleEnabled = false;
+        console.log('click');
+        //if (hasEnabledCam) {
+        //this.stylizedContext = this.stylized.getContext('2d');
+        outputDataURL = _this9.stylized.toDataURL('image/jpg');
+        //this.contentImg.src = imageDataURL;
+        //deactiveWebcam(); //TODO
+        //this.stopCam();
+        $('.register__print_button').attr('href', outputDataURL); //MH
+        //isLoading = false;
+        $bodyContainer.addClass('predicting');
+        _this9.stopCam();
+        $statusText.text(registerContent.savingText);
+        printBadgeSound.play();
+        setTimeout(function () {
+          _this9.handleOutro();
+        }, OUTRO_DELAY);
+      }, TAKE_PHOTO_TIMEOUT);
     }
   }, {
     key: 'handleOutro',
@@ -672,7 +703,7 @@ var Main = function () {
     value: function goToNextScreen() {
       $bodyContainer.addClass('outro');
       setTimeout(function () {
-        window.location = "engage.html";
+        //window.location = "engage.html"
       }, 1000);
     }
   }, {
