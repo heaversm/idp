@@ -149,14 +149,32 @@
   opacity: 1;
 }
 
+#cn-button-background, #cn-button-background-background {
+  border-radius: 50%;
+  height: 320px;
+  width: 320px;
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform: translate(-50%, -50%);
+  background-size:cover;
+  opacity: 0.3;
+  background-color:black;
+  z-index:1;
+}
+#cn-button-background-background {
+  opacity:1;
+  z-index: 0;
+}
+
+
 .cn-button {
+  overflow:hidden;
   outline: none;
   border: none;
-  background: none;
   text-align: center;
   height: 3.5em;
   width: 3.5em;
-  background-color: black;
   position: relative;
   left: 50%;
   top: 50%;
@@ -165,6 +183,7 @@
   z-index: 11;
   transition: 0.3s width, 0.3s height;
   transition-delay: 0.2s;
+
 }
 
 .cn-button.active {
@@ -175,6 +194,8 @@
 
 .cn-button.active .content-wrapper {
   display: block;
+  z-index:3;
+  position:relative;
 }
 
 .cn-button.active span {

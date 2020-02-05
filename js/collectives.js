@@ -93,15 +93,21 @@ window.onload = function () {
     }
 
     function onPetalClick() {
+        console.log('onPetalClick')
+        //CLICKME
         navigateSound3.play();
         const eleLink = $(this)[0];
         let ele = eleLink.querySelector('.collectives__petal_image');
         if (ele.src) {
             currentModel = ele.id;
+            document.getElementById("cn-button-background").style.backgroundImage = `url("images/${ele.id}.jpg")`;
         }
         var $thisPetal = $(this);
         curIndex = $thisPetal.index();
         var rotateIndex = curIndex; //MH - 0 index is at the left position , so two turns will get it to the top, thus the -2
+
+        
+
 
         rotateAmt = -rotateIndex * 40;
 

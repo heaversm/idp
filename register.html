@@ -27,7 +27,7 @@
   </div>
   <div class="register__body_container">
     <div class="register__status_text_container">
-      <p class="register__status_text"><span class="register__status">Loading Models</span></p>
+      <p class="register__status_text"><span class="register__status">Great choice. Ready to see your new self?</span></p>
     </div>
 
       <div class="tab-pane fade show active" id="stylize" role="tabpanel" aria-labelledby="stylize-tab">
@@ -42,7 +42,7 @@
           	      <div class="modal-dialog modal-lg" role="document">
           	        <div class="modal-content">
           	          <div class="modal-body" style="display: none;">
-          	            <video id="webcam-video" class="centered" width="500" height="375"></video>
+          	            <video id="webcam-video" class="centered" width="536" height="400"></video>
           	          </div>
           	        </div>
           	      </div>
@@ -52,8 +52,11 @@
           	    <img id="style-img" class="centered" crossorigin="anonymous" src="images/loading.gif" height=256></img>
           	  </div>
           	  <div class="output_container">
-          	    <canvas id="stylized" class="centered"></canvas>
-          	  </div>
+                <canvas id="stylized" class="centered"></canvas>
+                <div id="left" class="output-cover"></div>
+                <div id="right" class="output-cover"></div>
+              </div>
+              
           	  <div class="start_container" style="text-align: center; margin-top: 40px;">
           	    <button disabled id="style-button" type="button" class="style-button">Loading..</button>
           	  </div>
@@ -63,7 +66,7 @@
 
           <div class="register__print_container">
             <button class="register__photo_button register__photo_button--realtime process__button">
-              <span>Take photo</span>
+              <span>Print!</span>
             </button>
             <a class="register__print_button process__button" download="badge.jpg">
               <span>Print
