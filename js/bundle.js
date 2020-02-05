@@ -71,10 +71,10 @@ var outputDataURL = void 0;
 var registerContent = {
   loadingModelsText: "Hold on a second. (You look great!)",
   allowCamera: "Click button below to begin",
-  poseText: "Behold the new you! When you're ready, take a photo for the registTree.",
-  predictText: "Hold still! This could take a minute",
-  savingText: "Creating your new identity...",
-  uploadedText: "Welcome to the family! We're making your badge now.",
+  poseText: "Behold the new you! \n Please take a photo.",
+  predictText: "Hold still! This could take a minute...",
+  savingText: "Hold on...by the way, you look great!",
+  uploadedText: "Thanks and welcome! \n Your badge is printing.",
   startText: 'Let\'s go'
 };
 
@@ -497,6 +497,7 @@ var Main = function () {
   }, {
     key: 'setImage',
     value: function setImage(element, selectedValue) {
+        console.log('setImage')
       var _this7 = this;
 
       if (selectedValue === 'file') {
@@ -566,9 +567,33 @@ var Main = function () {
       //use the photo
       $('.output_container').removeClass('active');
       styleEnabled = false;
-      console.log('click');
+      console.log('onPredictClick yol2o');
       //if (hasEnabledCam) {
       //this.stylizedContext = this.stylized.getContext('2d');
+
+      const output_rotate_canvas = document.createElement('canvas');
+      output_rotate_canvas.width = 400;
+      output_rotate_canvas.height = 536;
+      const output_ctx = output_rotate_canvas.getContext('2d');
+
+     // stylized_ctx.save();
+     output_ctx.translate(0, 0);
+     output_ctx.rotate(-90*Math.PI/180);
+     output_ctx.translate(0, 200);
+
+      output_ctx.drawImage(this.stylized, 0, 0);
+//      stylized_ctx.restore();
+
+      document.body.append(output_rotate_canvas)
+      output_rotate_canvas.style.position = 'fixed';
+      output_rotate_canvas.style.zIndex = '9999999'
+      output_rotate_canvas.style.backgroundColor = 'red'
+      output_rotate_canvas.style.top = 0;
+      output_rotate_canvas.style.left = 0;
+
+      return
+      
+
       outputDataURL = this.stylized.toDataURL('image/jpg');
       //this.contentImg.src = imageDataURL;
       //deactiveWebcam(); //TODO

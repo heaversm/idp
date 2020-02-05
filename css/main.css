@@ -170,6 +170,11 @@ a.button {
   opacity: 0;
 }
 
+.barcode__viewport {
+  border: 5px solid red;
+  transform: rotate(90deg);
+}
+
 .barcode__container {
   display: flex;
   flex-direction: column;
@@ -184,6 +189,7 @@ a.button {
 .barcode__title {
   font-style: italic;
   transition: opacity 500ms linear;
+  text-align: center;
 }
 .barcode__success_container {
   position: absolute;
@@ -386,14 +392,32 @@ a.button {
   opacity: 1;
 }
 
+#cn-button-background, #cn-button-background-background {
+  border-radius: 50%;
+  height: 320px;
+  width: 320px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-size: cover;
+  opacity: 0.3;
+  background-color: black;
+  z-index: 1;
+}
+
+#cn-button-background-background {
+  opacity: 1;
+  z-index: 0;
+}
+
 .cn-button {
+  overflow: hidden;
   outline: none;
   border: none;
-  background: none;
   text-align: center;
   height: 3.5em;
   width: 3.5em;
-  background-color: black;
   position: relative;
   left: 50%;
   top: 50%;
@@ -412,6 +436,8 @@ a.button {
 
 .cn-button.active .content-wrapper {
   display: block;
+  z-index: 3;
+  position: relative;
 }
 
 .cn-button.active span {
@@ -612,6 +638,10 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 
 .opened-nav .collectives__petal_content_container {
   opacity: 1;
+}
+
+#stylized {
+  transform: rotate(-90deg) scale(-1, 1);
 }
 
 .register__body_container {
@@ -886,7 +916,8 @@ items should be rotated by x, minus (sum of angles - 180)2s (for this demo) */
 }
 
 .output_container {
-  z-index: 1;
+  z-index: -999;
+  transform: scale(3);
 }
 
 .content_container {

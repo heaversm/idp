@@ -22,7 +22,7 @@ var c4 = '#0B1F0E';
 let curStatusText = 0;
 let statusTimeout;
 const STATUS_DELAY = 2000;
-const STATUS_TEXTS = ['Entwining Destinies','Notifying Collective','Manifesting Pixels','Collect Your Badge!']
+const STATUS_TEXTS = ['Entwining Destinies','Notifying Collective','Manifesting Pixels','Ready! Collect Your Badge']
 $statusText = $('.engage__title');
 $taglineText = $('.engage__tagline');
 $metaballs = $('#metaball-canvas');

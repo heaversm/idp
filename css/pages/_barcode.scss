@@ -20,6 +20,11 @@
   
 }
 
+.barcode__viewport{
+   border:5px solid red;
+   transform: rotate(90deg);
+  }
+
 
 .barcode {
   &__container {
@@ -36,6 +41,7 @@
   &__title {
     font-style: italic;
     transition: opacity 500ms linear;
+    text-align: center;
   }
   &__success_container {
     position: absolute;

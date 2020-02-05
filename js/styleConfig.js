@@ -3,7 +3,7 @@ const STYLE_CONFIG = {
   style1: {
     id: 'style1',
     contentSize: CONTENT_SIZE,
-    styleSize: 256,
+    styleSize: 100,
     styleStrength: 1.0,
   },
   style2: {
@@ -27,8 +27,8 @@ const STYLE_CONFIG = {
   style5: {
     id: 'style5',
     contentSize: CONTENT_SIZE,
-    styleSize: 128,
-    styleStrength: 0.1,
+    styleSize: 200,
+    styleStrength: 0.5,
   },
   style6: {
     id: 'style6',
@@ -39,7 +39,7 @@ const STYLE_CONFIG = {
   style7: {
     id: 'style7',
     contentSize: CONTENT_SIZE,
-    styleSize: 256,
+    styleSize: 150,
     styleStrength: 1.0,
   },
   style8: {
