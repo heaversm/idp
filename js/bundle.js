@@ -703,7 +703,7 @@ var Main = function () {
     value: function goToNextScreen() {
       $bodyContainer.addClass('outro');
       setTimeout(function () {
-        //window.location = "engage.html"
+        window.location = "engage.html";
       }, 1000);
     }
   }, {
