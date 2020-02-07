@@ -27,6 +27,9 @@
 
 
 .barcode {
+  &__intro_container {
+    width: 60vw;
+  }
   &__container {
     display: flex;
     flex-direction: column;

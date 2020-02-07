@@ -1,4 +1,5 @@
 $(function () {
+  
 
   var recognizedCode; //holds the scanned barcode
   const NEXT_SCREEN_URL = 'collectives.html';
