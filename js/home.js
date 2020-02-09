@@ -21,7 +21,7 @@ var buttonCloseSound = new Howl({
 var soundBegin = new Howl({
   src: ['audio/warning.mp3'],
   volume: 0.5,
-  onend: function() {
+  onend: function () {
     window.location = NEXT_SCREEN_URL
   }
 });
@@ -86,12 +86,12 @@ function onIntroLinkClick(e) {
 
 function addListeners() {
   $('.home__btn_intro').on('click', onIntroLinkClick);
-  $('.home__btn_begin').on('click',onBeginClick);
+  $('.home__btn_begin').on('click', onBeginClick);
   $introModal.on('click', handleCloseModal);
   $introModalClose.on('click', handleCloseModal);
 }
 
-function onBeginClick(){
+function onBeginClick() {
   $('#Home').addClass('out');
   soundBegin.play();
 }
@@ -122,7 +122,20 @@ function handleCloseModal() {
   buttonCloseSound.play();
 }
 
+let mainTimeline;
+
+function initStageListener(){
+  mainTimeline = stage.children[0].timeline;
+  mainTimeline.addEventListener("change", onAnimatingMainTimeline);
+}
+
+function onAnimatingMainTimeline() {
+  if (mainTimeline.position == mainTimeline.duration) {
+    handleCloseModal();
+  }
+}
 
 $(window).load(() => {
   init();
+  initStageListener();
 });

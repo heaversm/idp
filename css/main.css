@@ -146,8 +146,9 @@ a.button {
 .intro__modal_close {
   position: absolute;
   z-index: 1;
-  top: 20px;
-  right: 20px;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 24px;
   border: 0;
   background-color: black;
