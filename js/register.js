@@ -27,24 +27,42 @@ let firstFrame = true;
 
 const OUTRO_DELAY = 3000;
 const USE_REALTIME = true;
-const VIDEO_SIZE = 128;
+const VIDEO_SIZE = 256;
 const FRAME_SKIP = 10;
 const SHOW_STYLIZED_DELAY = 5000;
+const TAKE_PHOTO_TIMEOUT = 4000;
 
 
 let savedFrame; //will contain video image when pic taken
 
 const urlParams = new URLSearchParams(window.location.search);
-const style = urlParams.get('style');
+let style = urlParams.get('style');
+if (!style) {
+  style = 'style1';
+}
 
 const registerContent = {
   noSafari: "Sorry we do not yet support your device, please open this page with Chrome on a desktop. We will support other devices in the near future!",
-  allowCamera: "Click camera icon below to allow access",
-  poseText: "Pose for the camera",
-  predictText: "Hold still! This could take a minute",
-  savingText: "Saving image to server",
+  allowCamera: "Click camera icon below to begin",
+  poseText: "Pose for the camera. Click button when ready.",
+  predictText: "Merging identities!",
+  savingText: "Merged!",
 }
 
+var ambientSound = new Howl({
+  src: ['audio/ambient5.mp3'],
+  autoplay: true,
+  loop: true,
+  volume: 0.1,
+});
+
+var beginSound = new Howl({
+  src: ['audio/button2.mp3'],
+});
+
+var printBadgeSound = new Howl({
+  src: ['audio/cameracapture.mp3'],
+});
 
 
 function setup() {
@@ -133,7 +151,45 @@ function deactiveWebcam() {
   }
 }
 
+function displayPhotoTimeout(){
+  let photoCount = 3;
+  $status.text(`${photoCount}...`);
+  window.photoCountdownInterval = setInterval(()=>{
+    photoCount--;
+    $status.text(`${photoCount}...`);
+    if (photoCount === 1){
+      clearInterval(window.photoCountdownInterval);
+      window.photoCountdownInterval = null;
+    }
+  },1000);
+  
+  
+}
+
 function onPredictClick() { //use the photo
+
+  displayPhotoTimeout();
+  setTimeout(() => {
+    
+    $('.output_container').removeClass('active');
+    styleEnabled = false;
+    console.log('click');
+    //if (hasEnabledCam) {
+    //this.stylizedContext = this.stylized.getContext('2d');
+    outputDataURL = this.stylized.toDataURL('image/jpg');
+    //this.contentImg.src = imageDataURL;
+    //deactiveWebcam(); //TODO
+    //this.stopCam();
+    $('.register__print_button').attr('href', outputDataURL); //MH
+    //isLoading = false;
+    $bodyContainer.addClass('predicting');
+    this.stopCam();
+    $statusText.text(registerContent.savingText);
+    printBadgeSound.play();
+    setTimeout(() => {
+      this.handleOutro();
+    }, OUTRO_DELAY);
+  }, TAKE_PHOTO_TIMEOUT);
 
   if (webcam) {
     deactiveWebcam();
@@ -238,6 +294,6 @@ function uploadToCloudStorage() {
 function goToNextScreen() {
   $bodyContainer.addClass('outro');
   setTimeout(() => {
-    //window.location = "engage.html"
+    window.location = "engage.html"
   }, 1000);
 }

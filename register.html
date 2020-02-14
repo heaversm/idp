@@ -22,7 +22,7 @@
   <div class="register__body_container">
 
     <div class="register__status_text_container">
-      <p class="register__status_text">Status: <span class="register__status">Loading Models</span></p>
+      <p class="register__status_text"><span class="register__status">Loading Models</span></p>
     </div>
 
     <div class="register__loader_container">
@@ -45,7 +45,7 @@
 
     <div class="register__input_container">
       <div class="center-container register__input_inner">
-        <img id="input-img" class="register__input_image" src='images/girlwithpearl.jpg' />
+        <img id="input-img" class="register__input_image" src='images/loading.gif' />
         <div id="input-source" class="register__reverse_image"></div>
       </div>
     </div>
@@ -75,7 +75,6 @@
 
   <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
   -<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-storage.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-analytics.js"></script>
 
   <script>
     var firebaseConfig = {
@@ -90,7 +89,6 @@
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
     const storageService = firebase.storage();
     const storageRef = storageService.ref();
   </script>

@@ -1,13 +1,6 @@
+
 $videoScale: 2;
-$printTranslate: 850px;
-$imagesTop: 300px;
-$camHeight: 400px;
-$camWidth: 536px;
-
-
-#stylized {
-  transform: rotate(-90deg) scale(-1, 1);
-}
+$printTranslate: 350px;
 
 .register {
   &__body_container {
@@ -18,10 +11,6 @@ $camWidth: 536px;
     height: 100vh;
     overflow: hidden;
     z-index: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
     &.loaded {
       .register__spinner_dot--1 {
         animation: anim__loader--cam1 2s forwards;
@@ -38,7 +27,7 @@ $camWidth: 536px;
         display: flex;
       }
       .register__output_container {
-        //display: none;
+        display: none;
       }
       .register__photo_button {
         display: flex;
@@ -57,7 +46,7 @@ $camWidth: 536px;
         visibility: visible;
       }
       .register__loader_container {
-        //display: none;
+        display: none;
       }
     }
     &.loaded.camera {
@@ -77,16 +66,9 @@ $camWidth: 536px;
         opacity: 0;
       }
       .register__loader_container {
-        //display: none;
-      }
-      .register__status_text_container {
-        opacity: 0;
-      }
-      .images_container {
         display: none;
       }
-      .register__print_container {
-        display: none !important;
+      .register__status_text_container {
         opacity: 0;
       }
     }
@@ -95,20 +77,18 @@ $camWidth: 536px;
         width: 50px;
         animation: anim__process 2s infinite $t__in_out_back;
         span {
-          //display: none;
+          display: none;
         }
       }
     }
   }
   &__status_text_container {
     text-align: center;
-    //padding-top: 100px;
-    //position: absolute;
-    //left: 0;
-    //top: 0;
+    padding-top: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 100%;
-    //transform: translateY(-100px);
-    margin-bottom: 40px;
     transition: opacity 1000ms linear;
   }
   &__status_text {
@@ -143,7 +123,7 @@ $camWidth: 536px;
     z-index: 10;
     width: 100%;
     height: 100%;
-    //display: none;
+    display: none;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -156,7 +136,7 @@ $camWidth: 536px;
     width: 100%;
     display: flex;
     justify-content: center;
-    //display: none;
+    display: none;
   }
   &__styles_container {
     width: 1000px;
@@ -174,7 +154,7 @@ $camWidth: 536px;
   }
   &__reverse_image {
     transition: transform 500ms $t__in_out_quart;
-    //visibility: hidden; //MH temp disable
+    visibility: hidden;
   }
   &__print_container {
     width: 100%;
@@ -182,8 +162,7 @@ $camWidth: 536px;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-top: 40px;
-    //transform: translateY($printTranslate);
+    transform: translateY($printTranslate);
   }
   &__spinner_cam_base_container {
     position: absolute;
@@ -233,7 +212,7 @@ $camWidth: 536px;
     animation-delay: -1s;
   }
   &__input_inner {
-    //display: none;
+    display: none;
     justify-content: center;
   }
   &__image_anchor {
@@ -266,135 +245,15 @@ $camWidth: 536px;
     display: flex;
   }
   &__print_button {
-    //visibility: hidden; //MH temp disable
+    visibility: hidden;
   }
   &__output_container {
-    //display: none; //MH temp disable
+    display: none;
     justify-content: center;
-    opacity: 0;
-    &.active {
-      opacity: 1;
-    }
   }
   &__reverse_image {
     //transform: scaleX(-1);
   }
-}
-
-.style-button {
-  height: 50px;
-  width: 200px;
-  border-radius: 25px;
-  font-size: 24px;
-  background: $c__primary--dark;
-  color: #ffffff;
-  padding: 5px 15px;
-  transition: all ease-in-out 0.5s;
-  justify-content: center;
-  //display: none;
-  &:hover {
-    background-color: $c__primary;
-    color: $c__primary--dark;
-  }
-}
-
-/* NEW STUFF */
-
-.centered {
-  margin: auto;
-  display: block;
-}
-
-#snap-button {
-  margin-top: 50px;
-  height: 40px;
-  display: none;
-  /* MH temp */
-}
-
-#style-button[disabled] {
-  background-color: red;
-  /*display: none !important;*/
-}
-
-.images_container {
-  // position: relative;
-  // height: 256px;
-  // width: 100%;
-  transition: 500ms opacity linear;
-}
-
-.images__outer {
-  // position: absolute;
-  // display: flex;
-  // width: 100vw;
-  // //height: 100vh;
-  // top: $imagesTop;
-  // left: 0;
-  // justify-content: center;
-  // align-items: center;
-}
-
-.content_container,
-.style_container,
-.output_container,
-.start_container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-}
-// scale and cover
-.output_container {
-  z-index: -999;
-  transform:scale(3);
-}
-
-// .output-cover {
-//  background-color: black;
-//  width: 150px;
-//  height: 400px;
-//  position:absolute;
-//  top:0;
-//  bottom:0;
-//  z-index:99999;
-
-//  left:0;
-// }
-
-// .output-cover#right{
-//  left:initial;
-//  right:0;
-// }
-
-.content_container {
-  visibility: hidden;
-}
-
-.start_container {
-  z-index: 2;
-}
-
-.select-image {
-  text-align: center;
-}
-
-.register__print_button {
-  visibility: hidden;
-}
-
-.register__print_container {
-  display: none;
-}
-
-.register__body_container.stylized .register__print_container {
-  display: flex;
-}
-
-.tab-pane {
-  position: relative;
-  width: $camWidth;
-  height: $camHeight;
 }
 
 @keyframes anim__bounce {
