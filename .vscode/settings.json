@@ -17,5 +17,6 @@
         "titleBar.inactiveForeground": "#000000CC",
         "titleBar.activeBackground": "#f502ed",
         "titleBar.inactiveBackground": "#960091"
-      },
+    },
+    "git.ignoreLimitWarning": true,
 }
